@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Card} from "./components/card/Card";
 import {Column} from "./components/column/Column";
 import styled from "styled-components";
 import {Login} from "./components/login/Login";
+import {data} from "./state/data";
 
 const ColumnWrapper = styled.div`
       display: flex;
@@ -11,14 +12,19 @@ const ColumnWrapper = styled.div`
 
 function App() {
 
+    const[state, setState] = useState(data);
+
+    console.log(data);
+
     return (
         <>
             <Login/>
             <ColumnWrapper>
-                <Column/>
-                <Column/>
-                <Column/>
-                <Column/>
+                {state.columns.map(item => <Column key={item.id} name={item.title}/>)}
+                {/*<Column/>*/}
+                {/*<Column/>*/}
+                {/*<Column/>*/}
+                {/*<Column/>*/}
             </ColumnWrapper>
             <Card/>
         </>

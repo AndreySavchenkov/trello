@@ -14,12 +14,15 @@ const ListCards = styled.div`
   flex-direction: column;
   border: 1px solid black;
 `
+type ColumnType = {
+    name: string;
+}
 
-export const Column = () => {
+export const Column = (props: ColumnType) => {
 
     return(
         <WrapperColumn>
-            <ColumnName>Column Name</ColumnName>
+            <ColumnName>{props.name}</ColumnName>
             <ListCards>
                 <NameCard/>
                 <NameCard/>
