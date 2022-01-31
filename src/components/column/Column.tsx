@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import {NameCard} from "../card/NameCard";
+import {Card} from "../card/Card";
+
 
 const WrapperColumn = styled.div`
   border: 1px solid black;
@@ -20,14 +21,17 @@ type ColumnType = {
 
 export const Column = (props: ColumnType) => {
 
-    return(
+
+
+    return (
         <WrapperColumn>
             <ColumnName>{props.name}</ColumnName>
             <ListCards>
-                <NameCard/>
-                <NameCard/>
-                <NameCard/>
+                <Card/>
+                <Card/>
+                <Card/>
             </ListCards>
         </WrapperColumn>
+
     )
 }

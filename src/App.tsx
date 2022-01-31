@@ -27,7 +27,6 @@ function App() {
                 {/*<Column/>*/}
                 {/*<Column/>*/}
             </ColumnWrapper>
-            <Card/>
         </>
     )
         ;
