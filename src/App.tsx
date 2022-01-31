@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Card} from "./components/card/Card";
+import {Column} from "./components/column/Column";
+import styled from "styled-components";
+import {Login} from "./components/login/Login";
+
+const ColumnWrapper = styled.div`
+      display: flex;
+      margin: 10px;
+    `
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        <>
+            <Login/>
+            <ColumnWrapper>
+                <Column/>
+                <Column/>
+                <Column/>
+                <Column/>
+            </ColumnWrapper>
+            <Card/>
+        </>
+    )
+        ;
 }
 
 export default App;
