@@ -1,4 +1,30 @@
-export const data = {
+type CommentT = {
+    writer: string,
+    text: string,
+}
+type CommentsT = CommentT[]
+
+type CardT ={
+    id: number,
+    title: string,
+    description: string,
+    comments: CommentsT,
+}
+type CardsT = CardT[]
+
+type ColumnT = {
+    id: number,
+    title: string,
+    cards: CardsT,
+}
+type ColumnsT = ColumnT[]
+
+export type DataT = {
+    name: string,
+    columns: ColumnsT,
+}
+
+export const data: DataT = {
     name: 'Andrew',
     columns: [
         {
