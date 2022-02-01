@@ -1,5 +1,6 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, useEffect} from "react";
 import styled from "styled-components";
+import {DataT} from "../../state/data";
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -13,29 +14,33 @@ const LoginText = styled.span`
 const LoginInput = styled.input`
   width: 300px;
 `
+const Button = styled.button`
 
-export const Login = () => {
+`
+type PropsType = {
+    name: string,
+    setName: (name: any) => void
+}
 
-    const [name, setName] = useState('');
+export const Login = (props: PropsType) => {
 
-    const localStorageNameUser = localStorage.getItem('nameUser');
-
-    useEffect(() => {
-        if (localStorageNameUser) {
-            setName(localStorageNameUser)
-        }
-    }, [])
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setName(e.currentTarget.value)
-        localStorage.setItem('nameUser', e.currentTarget.value)
+        props.setName(e.currentTarget.value)
+
+    }
+
+    const clickHandler = () => {
+        localStorage.setItem('nameUser', props.name)
     }
 
     return (
         <LoginWrapper>
             <LoginText>Напишите ваше имя: </LoginText>
-            <LoginInput placeholder={'Имя...'} value={name} onChange={changeHandler}/>
-            Ваше имя: {name}
+            <LoginInput placeholder={'Имя...'}
+                        value={props.name}
+                        onChange={changeHandler}/>
+            <Button onClick={clickHandler}>Это я</Button>
         </LoginWrapper>
     )
 }

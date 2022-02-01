@@ -21,12 +21,10 @@ type ColumnT = {
 type ColumnsT = ColumnT[]
 
 export type DataT = {
-    name: string,
     columns: ColumnsT,
 }
 
 export const data: DataT = {
-    name: 'Andrew',
     columns: [
         {
             id: 1,
