@@ -30,8 +30,8 @@ export const Comments = (props: PropsType) => {
             Напишите комментарий:
             <CommentInput type={'text'}
                           value={comment}
-                          placeholder={'Комментарий...'}
-                          onChange={changeHandler}/>
+                          onChange={changeHandler}
+                          placeholder={'Комментарий...'}/>
 
             {showComments}
         </CommentsWrapper>

@@ -23,8 +23,11 @@ function App() {
     }, [])
 
     let columns = state.columns.map(item => <Column key={item.id}
+                                                    state={state}
                                                     name={item.title}
-                                                    cards={item.cards}/>)
+                                                    cards={item.cards}
+                                                    columnId={item.id}
+                                                    setState={setState}/>)
 
 
     return (

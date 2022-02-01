@@ -32,7 +32,7 @@ export const data: DataT = {
             cards: [{
                 id: 1,
                 title: 'прочитать книгу',
-                description: 'Хочу прочитать книгу по http',
+                description: '',
                 comments: [
                     {id: 1, writer: 'Андрей', text: 'кто какую читал?'},
                     {id: 2, writer: 'Клим', text: 'Я не умею читать('}
@@ -45,7 +45,7 @@ export const data: DataT = {
             cards: [{
                 id: 1,
                 title: 'зделать Trello',
-                description: 'разбираюсь с новым стеком',
+                description: '',
                 comments: [
                     {id: 1, writer: 'Коля', text: 'они не новые'},
                     {id: 2, writer: 'Аня', text: 'не осуждаю'}
@@ -58,7 +58,7 @@ export const data: DataT = {
             cards: [{
                 id: 1,
                 title: 'пишу тесты',
-                description: 'нужно написать unit тесты',
+                description: '',
                 comments: [
                     {id: 1, writer: 'Михаил', text: 'тестов много не бывает'},
                     {id: 2, writer: 'Аня', text: 'не осуждаю'}
@@ -71,7 +71,7 @@ export const data: DataT = {
             cards: [{
                 id: 1,
                 title: 'почитать о Redux',
-                description: 'уменьшить колличество пропсов',
+                description: '',
                 comments: [
                     {id: 1, writer: 'Клим', text: 'я забыл, что такое пропсы'},
                     {id: 2, writer: 'Аня', text: 'I enjoy props'}

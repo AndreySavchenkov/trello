@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
-import {CardsT} from "../../state/data";
+import {CardsT, DataT} from "../../state/data";
 
 
 const WrapperColumn = styled.div`
@@ -20,17 +20,24 @@ const Button = styled.button`
 
 `
 type PropsType = {
-    name: string;
-    cards: CardsT;
+    name: string,
+    columnId: number,
+    cards: CardsT,
+    setState: (state: any) => void,
+    state: DataT,
 }
 
 
 export const Column = (props: PropsType) => {
 
     let cardsShowArr = props.cards.map(item => <Card key={item.id}
+                                                     cardId={item.id}
+                                                     state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
                                                      comments={item.comments}
+                                                     setState={props.setState}
+                                                     columnId={props.columnId}
                                                      description={item.description}/>)
 
     return (

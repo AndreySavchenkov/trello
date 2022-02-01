@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
-import {CommentsT} from "../../state/data";
+import {CommentsT, DataT} from "../../state/data";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -26,6 +26,10 @@ type PropsType = {
     cardName: string,
     description: string,
     comments: CommentsT,
+    setState: (state: any) => void,
+    state: DataT,
+    columnId: number,
+    cardId: number,
 }
 
 export const Card = (props: PropsType) => {
@@ -42,7 +46,11 @@ export const Card = (props: PropsType) => {
             {click ? <CardWrapper>
                 <ColumnName>в колонке {props.columnName}</ColumnName>
                 <CardName>{props.cardName}</CardName>
-                <Description description={props.description}/>
+                <Description state={props.state}
+                             cardId={props.cardId}
+                             setState={props.setState}
+                             columnId={props.columnId}
+                             description={props.description}/>
                 <Comments comments={props.comments}/>
             </CardWrapper> : null}
         </>
