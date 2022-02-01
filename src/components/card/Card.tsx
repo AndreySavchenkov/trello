@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from "react";
 import styled from "styled-components";
+import closeImage from "./../../assets/image/close.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
 import {CommentsT, DataT} from "../../state/data";
@@ -7,21 +8,55 @@ import {CommentsT, DataT} from "../../state/data";
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
+  padding: 10px;
   width: 400px;
+  min-height: 50%;
+  position: absolute;
+  background: #e3dfdf;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  border-radius: 4px;
 `
+const TopContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+const ImageClose = styled.img`
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+`
+
 const CardName = styled.span`
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #172b4d;
 `
 const ColumnName = styled.span`
+  margin-bottom: 40px;
   font-size: 14px;
-  color: green;
+  font-weight: 400;
+  color: #5e6c84;
 `
-const Name = styled.span`
-  border: 1px solid black;
+const Name = styled.div`
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #091e4240;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 8px;
+  min-height: 20px;
+  padding: 4px;
+  overflow: hidden;
+  position: relative;
 `
 const IputText = styled.input`
-    
+
 `
 
 type PropsType = {
@@ -51,11 +86,11 @@ export const Card = (props: PropsType) => {
         setIsEdit(true)
     }
 
-    const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setCardName(e.currentTarget.value)
     }
 
-    const blurHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setIsEdit(false)
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
         //@ts-ignore
@@ -71,26 +106,32 @@ export const Card = (props: PropsType) => {
         <>
             <Name onClick={clickHandler}>{props.cardName}</Name>
 
-            {click ? <CardWrapper>
-                   <ColumnName>в колонке {props.columnName}</ColumnName>
+            {click ?
+                <CardWrapper>
+                    <TopContainer>
+                        {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
+                            : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
+                        <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
+                    </TopContainer>
 
-                {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
-                    : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
+                    <ColumnName>из колонки {props.columnName}</ColumnName>
 
-                <Description state={props.state}
-                             cardId={props.cardId}
-                             setState={props.setState}
-                             columnId={props.columnId}
-                             description={props.description}/>
 
-                <Comments state={props.state}
-                          cardId={props.cardId}
-                          setState={props.setState}
-                          columnId={props.columnId}
-                          comments={props.comments}
-                          nameUser={props.nameUser}/>
 
-            </CardWrapper> : null}
+                    <Description state={props.state}
+                                 cardId={props.cardId}
+                                 setState={props.setState}
+                                 columnId={props.columnId}
+                                 description={props.description}/>
+
+                    <Comments state={props.state}
+                              cardId={props.cardId}
+                              setState={props.setState}
+                              columnId={props.columnId}
+                              comments={props.comments}
+                              nameUser={props.nameUser}/>
+
+                </CardWrapper> : null}
         </>
 
     )

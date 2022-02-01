@@ -7,8 +7,10 @@ const CommentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-const CommentInput = styled.input`
-  width: 200px;
+const CommentInput = styled.textarea`
+  width: 90%;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `
 
 type PropsType = {
@@ -24,11 +26,11 @@ export const Comments = (props: PropsType) => {
 
     const [comment, setComment] = useState('');
 
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setComment(e.currentTarget.value)
     }
 
-const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
+const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     e.currentTarget.value = '';
 
     let findColumn = props.state.columns.find(item => item.id === props.columnId);
@@ -53,8 +55,7 @@ const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
     return (
         <CommentsWrapper>
             Напишите комментарий:
-            <CommentInput type={'text'}
-                          value={comment}
+            <CommentInput value={comment}
                           onBlur={blurHandler}
                           onChange={changeHandler}
                           placeholder={'Комментарий...'}/>

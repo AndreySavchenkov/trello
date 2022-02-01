@@ -5,16 +5,24 @@ import {CardsT, DataT} from "../../state/data";
 
 
 const WrapperColumn = styled.div`
+  padding: 5px;
   border: 1px solid black;
-  width: 300px;
+  border-radius: 3px;
+  width: 272px;
+  height: 100%;
+  overflow: hidden;
+  background: #e3dfdf;
 `
 const ColumnName = styled.span`
-  color: red;
+  color: #172b4d;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-bottom: 10px;
 `
 const ListCards = styled.div`
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
 `
 const Button = styled.button`
 

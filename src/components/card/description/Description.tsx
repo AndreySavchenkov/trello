@@ -7,9 +7,12 @@ const DescriptionWrapper = styled.div`
 `
 const DescriptionText = styled.span`
   display: block;
+  margin-bottom: 10px;
+  overflow: hidden;
 `
-const DescriptionInput = styled.input`
-
+const DescriptionInput = styled.textarea`
+  width: 90%;
+  margin-bottom: 40px;
 `
 type PropsType = {
     state: DataT,
@@ -23,11 +26,11 @@ export const Description = (props: PropsType) => {
 
     const [description, setDescription] = useState(props.description);
 
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(e.currentTarget.value)
     }
 
-    const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.currentTarget.value = '';
 
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
@@ -48,7 +51,6 @@ export const Description = (props: PropsType) => {
                 {description ? description : 'Добавьте более подробной описание...'}
             </DescriptionText>
             <DescriptionInput
-                type={'text'}
                 // value={description}
                 placeholder={'Описание...'}
                 onChange={changeHandler}

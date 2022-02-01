@@ -1,12 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {Column} from "./components/column/Column";
-import styled from "styled-components";
+import styled  from "styled-components";
 import {Login} from "./components/login/Login";
 import {data, DataT} from "./state/data";
+
+
+
+const AppWrapper = styled.main`
+  width: 100%;
+`
 
 const ColumnWrapper = styled.div`
   display: flex;
   margin: 10px;
+  justify-content: space-around;
 `
 
 function App() {
@@ -32,15 +39,14 @@ function App() {
 
 
     return (
-        <>
+        <AppWrapper>
             {!localStorageNameUser ? <Login name={nameUser} setName={setNameUser}/> : null}
             <ColumnWrapper>
                 {columns}
             </ColumnWrapper>
-
-        </>
+        </AppWrapper>
     )
-        ;
+
 }
 
 export default App;

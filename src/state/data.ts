@@ -5,12 +5,13 @@ type CommentT = {
 }
 export type CommentsT = CommentT[]
 
-type CardT ={
+type CardT = {
     id: number,
     title: string,
     description: string,
     comments: CommentsT,
 }
+
 export type CardsT = CardT[]
 
 type ColumnT = {
@@ -18,6 +19,7 @@ type ColumnT = {
     title: string,
     cards: CardsT,
 }
+
 type ColumnsT = ColumnT[]
 
 export type DataT = {
