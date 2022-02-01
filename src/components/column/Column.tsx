@@ -23,6 +23,7 @@ type PropsType = {
     name: string,
     columnId: number,
     cards: CardsT,
+    nameUser: string,
     setState: (state: any) => void,
     state: DataT,
 }
@@ -35,6 +36,7 @@ export const Column = (props: PropsType) => {
                                                      state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
+                                                     nameUser={props.nameUser}
                                                      comments={item.comments}
                                                      setState={props.setState}
                                                      columnId={props.columnId}

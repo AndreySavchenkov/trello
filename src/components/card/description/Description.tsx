@@ -25,6 +25,11 @@ export const Description = (props: PropsType) => {
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setDescription(e.currentTarget.value)
+    }
+
+    const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        e.currentTarget.value = '';
+
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
         //@ts-ignore
         let findCard = findColumn.cards.find(item => item.id === props.cardId);
@@ -34,10 +39,6 @@ export const Description = (props: PropsType) => {
         let newState = {columns: newColumns}
         props.setState(newState)
 
-    }
-
-    const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        e.currentTarget.value = '';
     }
 
 

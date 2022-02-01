@@ -13,6 +13,7 @@ const Text = styled.span`
 type PropsType = {
     writer: string,
     text: string,
+    nameUser: string,
 }
 
 export const Comment = (props: PropsType) => {

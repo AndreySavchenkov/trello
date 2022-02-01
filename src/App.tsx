@@ -12,13 +12,13 @@ const ColumnWrapper = styled.div`
 function App() {
 
     const [state, setState] = useState<DataT>(data);
-    const [name, setName] = useState('');
+    const [nameUser, setNameUser] = useState('');
 
     const localStorageNameUser = localStorage.getItem('nameUser');
 
     useEffect(() => {
         if (localStorageNameUser) {
-            setName(localStorageNameUser)
+            setNameUser(localStorageNameUser)
         }
     }, [])
 
@@ -27,12 +27,13 @@ function App() {
                                                     name={item.title}
                                                     cards={item.cards}
                                                     columnId={item.id}
+                                                    nameUser={nameUser}
                                                     setState={setState}/>)
 
 
     return (
         <>
-            {!localStorageNameUser ? <Login name={name} setName={setName}/> : null}
+            {!localStorageNameUser ? <Login name={nameUser} setName={setNameUser}/> : null}
             <ColumnWrapper>
                 {columns}
             </ColumnWrapper>

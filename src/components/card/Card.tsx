@@ -30,6 +30,7 @@ type PropsType = {
     state: DataT,
     columnId: number,
     cardId: number,
+    nameUser: string,
 }
 
 export const Card = (props: PropsType) => {
@@ -51,7 +52,14 @@ export const Card = (props: PropsType) => {
                              setState={props.setState}
                              columnId={props.columnId}
                              description={props.description}/>
-                <Comments comments={props.comments}/>
+
+                <Comments state={props.state}
+                          cardId={props.cardId}
+                          setState={props.setState}
+                          columnId={props.columnId}
+                          comments={props.comments}
+                          nameUser={props.nameUser}/>
+
             </CardWrapper> : null}
         </>
 
