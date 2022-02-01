@@ -22,15 +22,15 @@ const Name = styled.span`
 `
 
 type PropsType = {
-    columnName: string,
+    state: DataT,
+    cardId: number,
     cardName: string,
+    columnId: number,
+    nameUser: string,
+    columnName: string,
     description: string,
     comments: CommentsT,
     setState: (state: any) => void,
-    state: DataT,
-    columnId: number,
-    cardId: number,
-    nameUser: string,
 }
 
 export const Card = (props: PropsType) => {
@@ -47,6 +47,7 @@ export const Card = (props: PropsType) => {
             {click ? <CardWrapper>
                 <ColumnName>в колонке {props.columnName}</ColumnName>
                 <CardName>{props.cardName}</CardName>
+
                 <Description state={props.state}
                              cardId={props.cardId}
                              setState={props.setState}

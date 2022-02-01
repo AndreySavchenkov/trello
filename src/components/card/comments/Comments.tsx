@@ -12,11 +12,11 @@ const CommentInput = styled.input`
 `
 
 type PropsType = {
-    comments: CommentsT,
-    nameUser: string,
     state: DataT,
-    columnId: number,
     cardId: number,
+    nameUser: string,
+    columnId: number,
+    comments: CommentsT,
     setState: (state: any) => void,
 }
 

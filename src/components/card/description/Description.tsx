@@ -13,8 +13,8 @@ const DescriptionInput = styled.input`
 `
 type PropsType = {
     state: DataT,
-    columnId: number,
     cardId: number,
+    columnId: number,
     description: string,
     setState: (state: any) => void,
 }

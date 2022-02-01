@@ -20,12 +20,12 @@ const Button = styled.button`
 
 `
 type PropsType = {
+    state: DataT,
     name: string,
-    columnId: number,
     cards: CardsT,
+    columnId: number,
     nameUser: string,
     setState: (state: any) => void,
-    state: DataT,
 }
 
 
@@ -36,20 +36,38 @@ export const Column = (props: PropsType) => {
                                                      state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
-                                                     nameUser={props.nameUser}
                                                      comments={item.comments}
+                                                     nameUser={props.nameUser}
                                                      setState={props.setState}
                                                      columnId={props.columnId}
                                                      description={item.description}/>)
+
+    const clickHandler = () => {
+
+        let findColumn = props.state.columns.find(item => item.id === props.columnId);
+
+        let newColumn = {
+            //@ts-ignore
+            ...findColumn, cards: [...findColumn.cards,
+                {
+                    id: 2,
+                    title: 'новая таска',
+                    description: '',
+                    comments: []
+                }]
+        }
+        let newColumns = props.state.columns.map(item => item.id === props.columnId ? newColumn : item)
+        let newState = {columns: newColumns}
+        props.setState(newState)
+    }
 
     return (
         <WrapperColumn>
             <ColumnName>{props.name}</ColumnName>
             <ListCards>
                 {cardsShowArr}
-                {/*<Card columnName={props.name}/>*/}
             </ListCards>
-            <Button>Добавить</Button>
+            <Button onClick={clickHandler}>Добавить</Button>
         </WrapperColumn>
     )
 }

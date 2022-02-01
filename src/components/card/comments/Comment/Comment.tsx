@@ -11,8 +11,8 @@ const Text = styled.span`
     margin-left: 20px;
 `
 type PropsType = {
-    writer: string,
     text: string,
+    writer: string,
     nameUser: string,
 }
 
