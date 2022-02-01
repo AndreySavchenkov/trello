@@ -1,24 +1,29 @@
 import React, {ChangeEvent, useState} from "react";
 import styled from "styled-components";
+import {CommentsT} from "../../../state/data";
+import {Comment} from "./Comment/Comment";
 
 const CommentsWrapper = styled.div`
-      display: flex;
-      flex-direction: column;
-    `
+  display: flex;
+  flex-direction: column;
+`
 const CommentInput = styled.input`
 
-    `
-const Comment = styled.span`
+`
 
-    `
+type PropsType = {
+    comments: CommentsT,
+}
 
-export const Comments = () => {
+export const Comments = (props: PropsType) => {
 
-    const[comment,setComment] = useState('');
+    const [comment, setComment] = useState('');
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setComment(e.currentTarget.value)
     }
+
+    let showComments = props.comments.map(item => <Comment key={item.id} writer={item.writer} text={item.text}/>)
 
     return (
         <CommentsWrapper>
@@ -27,10 +32,8 @@ export const Comments = () => {
                           value={comment}
                           placeholder={'Комментарий...'}
                           onChange={changeHandler}/>
-            {comment}
-            <Comment>1ый коммент</Comment>
-            <Comment>2ый коммент</Comment>
-            <Comment>3ый коммент</Comment>
+
+            {showComments}
         </CommentsWrapper>
     )
 }

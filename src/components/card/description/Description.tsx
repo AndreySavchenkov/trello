@@ -4,11 +4,17 @@ import styled from "styled-components";
 const DescriptionWrapper = styled.div`
 
 `
+const DescriptionText = styled.span`
+    display: block;
+`
 const DescriptionInput = styled.input`
 
 `
+type PropsType = {
+    description: string
+}
 
-export const Description = () => {
+export const Description = (props: PropsType) => {
 
     const [description, setDescription] = useState('');
 
@@ -16,9 +22,12 @@ export const Description = () => {
         setDescription(e.currentTarget.value)
     }
 
+
     return (
         <DescriptionWrapper>
-            Добавьте более подробной описание...
+            <DescriptionText>
+                { props.description ? props.description : 'Добавьте более подробной описание...'}
+            </DescriptionText>
             <DescriptionInput
                 type={'text'}
                 value={description}

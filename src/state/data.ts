@@ -1,8 +1,9 @@
 type CommentT = {
+    id: number,
     writer: string,
     text: string,
 }
-type CommentsT = CommentT[]
+export type CommentsT = CommentT[]
 
 type CardT ={
     id: number,
@@ -10,7 +11,7 @@ type CardT ={
     description: string,
     comments: CommentsT,
 }
-type CardsT = CardT[]
+export type CardsT = CardT[]
 
 type ColumnT = {
     id: number,
@@ -32,11 +33,11 @@ export const data: DataT = {
             title: 'TODO',
             cards: [{
                 id: 1,
-                title: 'read book',
-                description: 'I want to read this book',
+                title: 'прочитать книгу',
+                description: 'Хочу прочитать книгу по http',
                 comments: [
-                    {writer: 'Andrew', text: 'what is it?'},
-                    {writer: 'Ira', text: 'I don\'t know'}
+                    {id: 1, writer: 'Андрей', text: 'кто какую читал?'},
+                    {id: 2, writer: 'Клим', text: 'Я не умею читать('}
                 ]
             }]
         },
@@ -45,11 +46,11 @@ export const data: DataT = {
             title: 'In Progress',
             cards: [{
                 id: 1,
-                title: 'read book',
-                description: 'I want to read this book',
+                title: 'зделать Trello',
+                description: 'разбираюсь с новым стеком',
                 comments: [
-                    {writer: 'Andrew', text: 'what is it?'},
-                    {writer: 'Ira', text: 'I don\'t know'}
+                    {id: 1, writer: 'Коля', text: 'они не новые'},
+                    {id: 2, writer: 'Аня', text: 'не осуждаю'}
                 ]
             }]
         },
@@ -58,11 +59,11 @@ export const data: DataT = {
             title: 'Testing',
             cards: [{
                 id: 1,
-                title: 'read book',
-                description: 'I want to read this book',
+                title: 'пишу тесты',
+                description: 'нужно написать unit тесты',
                 comments: [
-                    {writer: 'Andrew', text: 'what is it?'},
-                    {writer: 'Ira', text: 'I don\'t know'}
+                    {id: 1, writer: 'Михаил', text: 'тестов много не бывает'},
+                    {id: 2, writer: 'Аня', text: 'не осуждаю'}
                 ]
             }]
         },
@@ -71,11 +72,11 @@ export const data: DataT = {
             title: 'Done',
             cards: [{
                 id: 1,
-                title: 'read book',
-                description: 'I want to read this book',
+                title: 'почитать о Redux',
+                description: 'уменьшить колличество пропсов',
                 comments: [
-                    {writer: 'Andrew', text: 'what is it?'},
-                    {writer: 'Ira', text: 'I don\'t know'}
+                    {id: 1, writer: 'Клим', text: 'я забыл, что такое пропсы'},
+                    {id: 2, writer: 'Аня', text: 'I enjoy props'}
                 ]
             }]
         },

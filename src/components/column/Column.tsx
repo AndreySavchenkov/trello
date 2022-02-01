@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
+import {CardsT} from "../../state/data";
 
 
 const WrapperColumn = styled.div`
@@ -15,23 +16,31 @@ const ListCards = styled.div`
   flex-direction: column;
   border: 1px solid black;
 `
-type ColumnType = {
+const Button = styled.button`
+
+`
+type PropsType = {
     name: string;
+    cards: CardsT;
 }
 
-export const Column = (props: ColumnType) => {
 
+export const Column = (props: PropsType) => {
 
+    let cardsShowArr = props.cards.map(item => <Card key={item.id}
+                                                     cardName={item.title}
+                                                     columnName={props.name}
+                                                     comments={item.comments}
+                                                     description={item.description}/>)
 
     return (
         <WrapperColumn>
             <ColumnName>{props.name}</ColumnName>
             <ListCards>
-                <Card/>
-                <Card/>
-                <Card/>
+                {cardsShowArr}
+                {/*<Card columnName={props.name}/>*/}
             </ListCards>
+            <Button>Добавить</Button>
         </WrapperColumn>
-
     )
 }

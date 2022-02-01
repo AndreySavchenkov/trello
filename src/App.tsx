@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {Card} from "./components/card/Card";
 import {Column} from "./components/column/Column";
 import styled from "styled-components";
 import {Login} from "./components/login/Login";
@@ -15,7 +14,8 @@ function App() {
     const [state, setState] = useState<DataT>(data);
 
     let columns = state.columns.map(item => <Column key={item.id}
-                                                    name={item.title}/>)
+                                                    name={item.title}
+                                                    cards={item.cards}/>)
 
     return (
         <>

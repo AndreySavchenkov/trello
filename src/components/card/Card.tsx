@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
+import {CommentsT} from "../../state/data";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -20,8 +21,14 @@ const Name = styled.span`
   border: 1px solid black;
 `
 
+type PropsType = {
+    columnName: string,
+    cardName: string,
+    description: string,
+    comments: CommentsT,
+}
 
-export const Card = () => {
+export const Card = (props: PropsType) => {
 
     const [click, setClick] = useState(false)
 
@@ -31,12 +38,12 @@ export const Card = () => {
 
     return (
         <>
-            <Name onClick={clickHandler}>Card Name</Name>
+            <Name onClick={clickHandler}>{props.cardName}</Name>
             {click ? <CardWrapper>
-                <ColumnName>карточка из TODO</ColumnName>
-                <CardName>Card Name</CardName>
-                <Description/>
-                <Comments/>
+                <ColumnName>в колонке {props.columnName}</ColumnName>
+                <CardName>{props.cardName}</CardName>
+                <Description description={props.description}/>
+                <Comments comments={props.comments}/>
             </CardWrapper> : null}
         </>
 
