@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ChangeEvent, useState} from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
 import {CardsT, DataT} from "../../state/data";
@@ -27,6 +27,9 @@ const ListCards = styled.div`
 const Button = styled.button`
 
 `
+const EditColumnName = styled.input`
+
+`
 type PropsType = {
     state: DataT,
     name: string,
@@ -39,12 +42,15 @@ type PropsType = {
 
 export const Column = (props: PropsType) => {
 
+    const [isEdit, setIsEdit] = useState(false);
+    const [nameChangeCard, setNameChangeCard] = useState(props.name);
+
     let cardsShowArr = props.cards.map(item => <Card key={item.id}
                                                      cardId={item.id}
-                                                     writerCard={item.writer}
                                                      state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
+                                                     writerCard={item.writer}
                                                      comments={item.comments}
                                                      nameUser={props.nameUser}
                                                      setState={props.setState}
@@ -52,9 +58,7 @@ export const Column = (props: PropsType) => {
                                                      description={item.description}/>)
 
     const clickHandler = () => {
-
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
-
         let newColumn = {
             //@ts-ignore
             ...findColumn, cards: [...findColumn.cards,
@@ -71,9 +75,22 @@ export const Column = (props: PropsType) => {
         props.setState(newState)
     }
 
+    const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+        setNameChangeCard(e.currentTarget.value)
+    }
+    const changeColumnName = () => {
+        setIsEdit(true)
+    }
+    const onBlurHandler = () => {
+        setIsEdit(false)
+    }
+
     return (
         <WrapperColumn>
-            <ColumnName>{props.name}</ColumnName>
+
+            {!isEdit ? <ColumnName onClick={changeColumnName}>{nameChangeCard}</ColumnName>
+                : <EditColumnName value={nameChangeCard} onChange={changeHandler} onBlur={onBlurHandler}/>}
+
             <ListCards>
                 {cardsShowArr}
             </ListCards>
