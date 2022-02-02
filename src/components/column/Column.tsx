@@ -41,6 +41,7 @@ export const Column = (props: PropsType) => {
 
     let cardsShowArr = props.cards.map(item => <Card key={item.id}
                                                      cardId={item.id}
+                                                     writerCard={item.writer}
                                                      state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
@@ -59,6 +60,7 @@ export const Column = (props: PropsType) => {
             ...findColumn, cards: [...findColumn.cards,
                 {
                     id: 2,
+                    writer: props.nameUser,
                     title: 'новая таска',
                     description: '',
                     comments: []

@@ -7,6 +7,7 @@ export type CommentsT = CommentT[]
 
 type CardT = {
     id: number,
+    writer: string,
     title: string,
     description: string,
     comments: CommentsT,
@@ -33,6 +34,7 @@ export const data: DataT = {
             title: 'TODO',
             cards: [{
                 id: 1,
+                writer: 'Жека',
                 title: 'прочитать книгу',
                 description: '',
                 comments: [
@@ -46,6 +48,7 @@ export const data: DataT = {
             title: 'In Progress',
             cards: [{
                 id: 1,
+                writer: 'Андрей',
                 title: 'зделать Trello',
                 description: '',
                 comments: [
@@ -59,6 +62,7 @@ export const data: DataT = {
             title: 'Testing',
             cards: [{
                 id: 1,
+                writer: 'Алиса',
                 title: 'пишу тесты',
                 description: '',
                 comments: [
@@ -72,6 +76,7 @@ export const data: DataT = {
             title: 'Done',
             cards: [{
                 id: 1,
+                writer: 'Марат',
                 title: 'почитать о Redux',
                 description: '',
                 comments: [

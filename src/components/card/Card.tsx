@@ -58,6 +58,14 @@ const Name = styled.div`
 const IputText = styled.input`
 
 `
+const WriterCardBlock = styled.div`
+  margin-top: 40px;
+`
+const WriterCard = styled.span`
+  font-size: 14px;
+  font-weight: 600;
+  color: #172b4d;
+`
 
 type PropsType = {
     state: DataT,
@@ -65,6 +73,7 @@ type PropsType = {
     cardName: string,
     columnId: number,
     nameUser: string,
+    writerCard: string,
     columnName: string,
     description: string,
     comments: CommentsT,
@@ -117,7 +126,6 @@ export const Card = (props: PropsType) => {
                     <ColumnName>из колонки {props.columnName}</ColumnName>
 
 
-
                     <Description state={props.state}
                                  cardId={props.cardId}
                                  setState={props.setState}
@@ -130,6 +138,10 @@ export const Card = (props: PropsType) => {
                               columnId={props.columnId}
                               comments={props.comments}
                               nameUser={props.nameUser}/>
+
+                    <WriterCardBlock>
+                       <WriterCard>{props.writerCard}</WriterCard>  создал(а) карточку
+                    </WriterCardBlock>
 
                 </CardWrapper> : null}
         </>
