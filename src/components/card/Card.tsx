@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
 import {Description} from "./description/Description";
@@ -100,11 +100,19 @@ export const Card = (props: PropsType) => {
     }
 
     const keyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-        console.log(e.key)
         if (e.key === "Escape") {
             setIsOpen(false)
         }
     }
+
+    useEffect(() => {
+        //@ts-ignore
+        document.body.addEventListener('keydown', keyDownHandler);
+        return () => {
+            //@ts-ignore
+            document.body.removeEventListener('keydown', keyDownHandler);
+        }
+    }, []);
 
 
     const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +132,7 @@ export const Card = (props: PropsType) => {
             <Name onClick={clickHandler}>{props.cardName}</Name>
 
             {isOpen ?
-                <CardWrapper onKeyUp={keyDownHandler} >
+                <CardWrapper onKeyDown={keyDownHandler} >
                     <TopContainer>
                         {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
                             : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
