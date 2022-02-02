@@ -31,7 +31,6 @@ export const Comments = (props: PropsType) => {
     }
 
 const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    e.currentTarget.value = '';
 
     let findColumn = props.state.columns.find(item => item.id === props.columnId);
     //@ts-ignore
@@ -41,11 +40,9 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
     let newState = {columns: newColumns}
     props.setState(newState)
+
+    e.currentTarget.value = '';
 }
-
-
-
-
 
     let showComments = props.comments.map(item => <Comment key={item.id}
                                                            text={item.text}
@@ -55,8 +52,7 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     return (
         <CommentsWrapper>
             Напишите комментарий:
-            <CommentInput value={comment}
-                          onBlur={blurHandler}
+            <CommentInput onBlur={blurHandler}
                           onChange={changeHandler}
                           placeholder={'Комментарий...'}/>
 
