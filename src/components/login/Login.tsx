@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import {DataT} from "../../state/data";
 
@@ -42,23 +42,29 @@ type PropsType = {
 
 export const Login = (props: PropsType) => {
 
+    const [isLogin, setIsLogin] = useState(true)
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.setName(e.currentTarget.value)
-
     }
 
     const clickHandler = () => {
         localStorage.setItem('nameUser', props.name)
+        setIsLogin(false)
     }
 
     return (
-        <LoginWrapper>
-            <LoginText>Напишите ваше имя: </LoginText>
-            <LoginInput placeholder={'Имя...'}
-                        value={props.name}
-                        onChange={changeHandler}/>
-            <Button onClick={clickHandler}>Это я</Button>
-        </LoginWrapper>
+        <>
+            {isLogin ? <LoginWrapper>
+                    <LoginText>Напишите ваше имя: </LoginText>
+                    <LoginInput placeholder={'Имя...'}
+                                value={props.name}
+                                onChange={changeHandler}/>
+                    <Button onClick={clickHandler}>Это я</Button>
+                </LoginWrapper>
+                : null}
+        </>
+
+
     )
 }
