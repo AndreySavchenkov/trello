@@ -1,6 +1,7 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
+import deleteImage from "./../../assets/image/trash.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
 import {CommentsT, DataT} from "../../state/data";
@@ -44,16 +45,29 @@ const ColumnName = styled.span`
   color: #5e6c84;
 `
 const Name = styled.div`
-  background-color: #fff;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 #091e4240;
+  max-width: 245px;
+  width: 100%;
   cursor: pointer;
   display: block;
-  margin-bottom: 8px;
-  min-height: 20px;
   padding: 4px;
   overflow: hidden;
   position: relative;
+`
+const NameContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 #091e4240;
+  margin-bottom: 8px;
+  min-height: 20px;
+`
+const DeleteImage = styled.img`
+  padding-right: 3px;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
 `
 const IputText = styled.input`
 
@@ -114,14 +128,24 @@ export const Card = (props: PropsType) => {
         }
     }, []);
 
-
     const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setIsEdit(false)
+        // let findColumn = props.state.columns.find(item => item.id === props.columnId);
+        // //@ts-ignore
+        // let findCard = findColumn.cards.find(item => item.id === props.cardId);
+        // //@ts-ignore
+        // findCard.title = e.currentTarget.value
+        // let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
+        // let newState = {columns: newColumns}
+        // props.setState(newState)
+    }
+
+    const deleteCard = () => {
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
         //@ts-ignore
-        let findCard = findColumn.cards.find(item => item.id === props.cardId);
+        let sortCards = findColumn.cards.filter(n => n.id !== props.cardId);
         //@ts-ignore
-        findCard.title = e.currentTarget.value
+        findColumn.cards = sortCards;
         let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
         let newState = {columns: newColumns}
         props.setState(newState)
@@ -129,12 +153,16 @@ export const Card = (props: PropsType) => {
 
     return (
         <>
-            <Name onClick={clickHandler}>{props.cardName}</Name>
+            <NameContainer>
+                <Name onClick={clickHandler}>{cardName}</Name>
+                <DeleteImage onClick={deleteCard} src={deleteImage}/>
+            </NameContainer>
 
             {isOpen ?
-                <CardWrapper onKeyDown={keyDownHandler} >
+                <CardWrapper onKeyDown={keyDownHandler}>
+
                     <TopContainer>
-                        {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
+                        {!isEdit ? <CardName onDoubleClick={changeInput}>{cardName}</CardName>
                             : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
                         <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
                     </TopContainer>
