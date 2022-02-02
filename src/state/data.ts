@@ -41,7 +41,26 @@ export const data: DataT = {
                     {id: 1, writer: 'Андрей', text: 'кто какую читал?'},
                     {id: 2, writer: 'Клим', text: 'Я не умею читать('}
                 ]
-            }]
+            },
+                {
+                    id: 2,
+                    writer: 'Жека',
+                    title: 'списать с ментором',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Андрей', text: 'когда напишешь?'},
+                    ]
+                },
+                {
+                    id: 3,
+                    writer: 'Рома',
+                    title: 'позвонить Маше',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Андрей', text: 'передай привет'},
+                    ]
+                }
+            ]
         },
         {
             id: 2,
@@ -55,7 +74,27 @@ export const data: DataT = {
                     {id: 1, writer: 'Коля', text: 'они не новые'},
                     {id: 2, writer: 'Аня', text: 'не осуждаю'}
                 ]
-            }]
+            },
+
+                {
+                    id: 2,
+                    writer: 'Жека',
+                    title: 'изменить размер главного блока',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Андрей', text: 'как успехи?'},
+                    ]
+                },
+                {
+                    id: 3,
+                    writer: 'Рома',
+                    title: 'посмотреть курс о react native',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Андрей', text: 'передай привет'},
+                    ]
+                }
+            ]
         },
         {
             id: 3,
@@ -69,7 +108,18 @@ export const data: DataT = {
                     {id: 1, writer: 'Михаил', text: 'тестов много не бывает'},
                     {id: 2, writer: 'Аня', text: 'не осуждаю'}
                 ]
-            }]
+            },
+
+                {
+                    id: 2,
+                    writer: 'Жека',
+                    title: 'переписать на styled components',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Андрей', text: 'когда напишешь?'},
+                    ]
+                }
+            ]
         },
         {
             id: 4,
@@ -83,7 +133,27 @@ export const data: DataT = {
                     {id: 1, writer: 'Клим', text: 'я забыл, что такое пропсы'},
                     {id: 2, writer: 'Аня', text: 'I enjoy props'}
                 ]
-            }]
+            },
+
+                {
+                    id: 2,
+                    writer: 'Жека',
+                    title: 'разобраться с redux-toolkit',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Глеб', text: 'крутая штука!'},
+                    ]
+                },
+                {
+                    id: 3,
+                    writer: 'Рома',
+                    title: 'почитать о redux-ducks',
+                    description: '',
+                    comments: [
+                        {id: 1, writer: 'Лёня', text: 'утка?'},
+                    ]
+                }
+            ]
         },
 
     ]

@@ -63,7 +63,7 @@ export const Column = (props: PropsType) => {
             //@ts-ignore
             ...findColumn, cards: [...findColumn.cards,
                 {
-                    id: 2,
+                    id: 10,
                     writer: props.nameUser,
                     title: 'новая таска',
                     description: '',

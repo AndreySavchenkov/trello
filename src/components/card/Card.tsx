@@ -130,14 +130,6 @@ export const Card = (props: PropsType) => {
 
     const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setIsEdit(false)
-        // let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        // //@ts-ignore
-        // let findCard = findColumn.cards.find(item => item.id === props.cardId);
-        // //@ts-ignore
-        // findCard.title = e.currentTarget.value
-        // let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
-        // let newState = {columns: newColumns}
-        // props.setState(newState)
     }
 
     const deleteCard = () => {
