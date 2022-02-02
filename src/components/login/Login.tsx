@@ -42,7 +42,7 @@ type PropsType = {
 
 export const Login = (props: PropsType) => {
 
-    const [isLogin, setIsLogin] = useState(true)
+    const [isOpen, setIsOpen] = useState(true)
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         props.setName(e.currentTarget.value)
@@ -50,12 +50,12 @@ export const Login = (props: PropsType) => {
 
     const clickHandler = () => {
         localStorage.setItem('nameUser', props.name)
-        setIsLogin(false)
+        setIsOpen(false)
     }
 
     return (
         <>
-            {isLogin ? <LoginWrapper>
+            {isOpen ? <LoginWrapper>
                     <LoginText>Напишите ваше имя: </LoginText>
                     <LoginInput placeholder={'Имя...'}
                                 value={props.name}

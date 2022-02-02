@@ -82,13 +82,13 @@ type PropsType = {
 
 export const Card = (props: PropsType) => {
 
-    const [click, setClick] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [cardName, setCardName] = useState(props.cardName)
 
 
     const clickHandler = () => {
-        setClick(!click)
+        setIsOpen(!isOpen)
     }
 
     const changeInput = () => {
@@ -98,6 +98,14 @@ export const Card = (props: PropsType) => {
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setCardName(e.currentTarget.value)
     }
+
+    const keyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+        console.log(e.key)
+        if (e.key === "Escape") {
+            setIsOpen(false)
+        }
+    }
+
 
     const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setIsEdit(false)
@@ -115,8 +123,8 @@ export const Card = (props: PropsType) => {
         <>
             <Name onClick={clickHandler}>{props.cardName}</Name>
 
-            {click ?
-                <CardWrapper>
+            {isOpen ?
+                <CardWrapper onKeyUp={keyDownHandler} >
                     <TopContainer>
                         {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
                             : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
@@ -140,7 +148,7 @@ export const Card = (props: PropsType) => {
                               nameUser={props.nameUser}/>
 
                     <WriterCardBlock>
-                       <WriterCard>{props.writerCard}</WriterCard>  создал(а) карточку
+                        <WriterCard>{props.writerCard}</WriterCard> создал(а) карточку
                     </WriterCardBlock>
 
                 </CardWrapper> : null}
