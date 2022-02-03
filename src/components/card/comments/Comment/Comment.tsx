@@ -97,11 +97,11 @@ export const Comment = memo((props: PropsType) => {
     return (
         <>
             <CommentWrapper>
-                <Name>{props.writer}</Name>
-                {isEdit ? <Text>{text}</Text> : <EditText type="text"
-                                                          value={text}
-                                                          onBlur={blurHandler}
-                                                          onChange={changeHandler}/>}
+                    <Name>{props.writer}</Name>
+                    {isEdit ? <Text>{text}</Text> : <EditText type="text"
+                                                              value={text}
+                                                              onBlur={blurHandler}
+                                                              onChange={changeHandler}/>}
             </CommentWrapper>
 
             <EditWrapper>

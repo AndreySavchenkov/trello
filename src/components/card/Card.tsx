@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
 import deleteImage from "./../../assets/image/trash.png";
+import comment from "./../../assets/image/comment.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
 import {CommentsT, DataT} from "../../state/data";
@@ -55,13 +56,32 @@ const Name = styled.div`
 `
 const NameContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
   background-color: #fff;
   border-radius: 3px;
   box-shadow: 0 1px 0 #091e4240;
   margin-bottom: 8px;
   min-height: 20px;
+`
+const MainContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+const CommentCountContainer = styled.div`
+  padding-left: 4px;
+  display: flex;
+  align-items: center;
+`
+const CommentCount = styled.span`
+  font-size: 10px;
+  padding-left: 4px;
+`
+const CommentIcon = styled.img`
+  width: 10px;
+  height: 10px;
 `
 const DeleteImage = styled.img`
   padding-right: 3px;
@@ -69,7 +89,7 @@ const DeleteImage = styled.img`
   height: 14px;
   cursor: pointer;
 `
-const IputText = styled.input`
+const InputText = styled.input`
 
 `
 const WriterCardBlock = styled.div`
@@ -146,8 +166,14 @@ export const Card = (props: PropsType) => {
     return (
         <>
             <NameContainer>
-                <Name onClick={clickHandler}>{cardName}</Name>
-                <DeleteImage onClick={deleteCard} src={deleteImage}/>
+                <MainContainer>
+                    <Name onClick={clickHandler}>{cardName}</Name>
+                    <DeleteImage onClick={deleteCard} src={deleteImage}/>
+                </MainContainer>
+                <CommentCountContainer>
+                    <CommentIcon src={comment} alt={"count comments"}/>
+                    <CommentCount>{props.comments.length}</CommentCount>
+                </CommentCountContainer>
             </NameContainer>
 
             {isOpen ?
@@ -155,7 +181,7 @@ export const Card = (props: PropsType) => {
 
                     <TopContainer>
                         {!isEdit ? <CardName onDoubleClick={changeInput}>{cardName}</CardName>
-                            : <IputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
+                            : <InputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
                         <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
                     </TopContainer>
 
