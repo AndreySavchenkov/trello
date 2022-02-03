@@ -128,7 +128,7 @@ export const Card = (props: PropsType) => {
         }
     }, []);
 
-    const blurHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const blurHandler = () => {
         setIsEdit(false)
     }
 

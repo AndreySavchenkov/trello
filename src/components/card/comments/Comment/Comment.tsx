@@ -1,6 +1,6 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, memo, useState} from "react";
 import styled from "styled-components";
-
+import {DataT} from "../../../../state/data";
 
 
 const CommentWrapper = styled.div`
@@ -47,14 +47,20 @@ const EditComment = styled.span`
 `
 type PropsType = {
     text: string,
+    state: DataT,
+    cardId: number,
     writer: string,
     nameUser: string,
+    columnId: number,
+    commentId: number,
 }
 
-export const Comment = (props: PropsType) => {
+export const Comment = memo((props: PropsType) => {
+
 
     const [isEdit, setIsEdit] = useState(true);
     const [text, setText] = useState(props.text)
+
 
     const clickHandler = () => {
         setIsEdit(!isEdit)
@@ -62,16 +68,30 @@ export const Comment = (props: PropsType) => {
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setText(e.currentTarget.value)
     }
+    const blurHandler = () => {
+        setIsEdit(true)
+
+        let findColumn = props.state.columns.find(item => item.id === props.columnId);
+        //@ts-ignore
+        let findCard = findColumn.cards.find(item => item.id === props.cardId);
+        //@ts-ignore
+        let findComment = findCard.comments.find(item => item.id === props.commentId);
+        //@ts-ignore
+        findComment.text = text
+    }
 
     return (
         <>
             <CommentWrapper>
                 <Name>{props.writer}</Name>
-                {isEdit ?  <Text>{text}</Text> : <EditText value={text} type="text" onChange={changeHandler}/>}
+                {isEdit ? <Text>{text}</Text> : <EditText type="text"
+                                                          value={text}
+                                                          onBlur={blurHandler}
+                                                          onChange={changeHandler}/>}
             </CommentWrapper>
-            
+
             <EditWrapper>
-                <EditComment onClick={clickHandler}>Изменить</EditComment> 
+                <EditComment onClick={clickHandler}>Изменить</EditComment>
                 <DeleteComment>Удалить</DeleteComment>
             </EditWrapper>
 
@@ -79,4 +99,4 @@ export const Comment = (props: PropsType) => {
 
 
     )
-}
+})

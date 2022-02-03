@@ -46,7 +46,11 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
 
     let showComments = props.comments.map(item => <Comment key={item.id}
                                                            text={item.text}
+                                                           commentId={item.id}
+                                                           state={props.state}
                                                            writer={item.writer}
+                                                           cardId={props.cardId}
+                                                           columnId={props.columnId}
                                                            nameUser={props.nameUser}/>)
 
     return (
