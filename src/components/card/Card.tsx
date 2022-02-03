@@ -111,6 +111,7 @@ type PropsType = {
     columnName: string,
     description: string,
     comments: CommentsT,
+    nameChangeCard: string,
     setState: (state: any) => void,
 }
 
@@ -185,7 +186,7 @@ export const Card = (props: PropsType) => {
                         <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
                     </TopContainer>
 
-                    <ColumnName>из колонки {props.columnName}</ColumnName>
+                    <ColumnName>из колонки {props.nameChangeCard}</ColumnName>
 
 
                     <Description state={props.state}

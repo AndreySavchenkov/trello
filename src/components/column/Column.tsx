@@ -55,6 +55,7 @@ export const Column = (props: PropsType) => {
                                                      nameUser={props.nameUser}
                                                      setState={props.setState}
                                                      columnId={props.columnId}
+                                                     nameChangeCard={nameChangeCard}
                                                      description={item.description}/>)
 
     const clickHandler = () => {

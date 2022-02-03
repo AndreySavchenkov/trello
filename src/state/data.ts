@@ -116,7 +116,7 @@ export const data: DataT = {
                     title: 'переписать на styled components',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', text: 'когда напишешь?'},
+                        {id: 1, writer: 'Жека', text: 'почему не module?'},
                     ]
                 }
             ]
@@ -130,8 +130,9 @@ export const data: DataT = {
                 title: 'почитать о Redux',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Клим', text: 'я забыл, что такое пропсы'},
-                    {id: 2, writer: 'Аня', text: 'I enjoy props'}
+                    {id: 1, writer: 'Клим', text: 'не забудь про redux-toolkit'},
+                    {id: 2, writer: 'Аня', text: 'I enjoy props'},
+                    {id: 1, writer: 'Клим', text: 'не забудь про redux-toolkit'},
                 ]
             },
 
@@ -142,6 +143,8 @@ export const data: DataT = {
                     description: '',
                     comments: [
                         {id: 1, writer: 'Глеб', text: 'крутая штука!'},
+                        {id: 2, writer: 'Аня', text: 'хочу-хочу'},
+                        {id: 3, writer: 'Лиля', text: 'и я'},
                     ]
                 },
                 {
@@ -151,6 +154,7 @@ export const data: DataT = {
                     description: '',
                     comments: [
                         {id: 1, writer: 'Лёня', text: 'утка?'},
+                        {id: 2, writer: 'Катя', text: 'кря)'},
                     ]
                 }
             ]
