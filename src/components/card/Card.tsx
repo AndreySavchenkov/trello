@@ -156,9 +156,7 @@ export const Card = (props: PropsType) => {
     const deleteCard = () => {
         let findColumn = props.state.columns.find(item => item.id === props.columnId);
         //@ts-ignore
-        let sortCards = findColumn.cards.filter(n => n.id !== props.cardId);
-        //@ts-ignore
-        findColumn.cards = sortCards;
+        findColumn.cards = findColumn.cards.filter(n => n.id !== props.cardId);
         let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
         let newState = {columns: newColumns}
         props.setState(newState)

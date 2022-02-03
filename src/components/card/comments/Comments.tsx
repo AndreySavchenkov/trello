@@ -31,7 +31,6 @@ export const Comments = (props: PropsType) => {
     }
 
 const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-
     let findColumn = props.state.columns.find(item => item.id === props.columnId);
     //@ts-ignore
     let findCard = findColumn.cards.find(item => item.id === props.cardId);
@@ -40,7 +39,6 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
     let newState = {columns: newColumns}
     props.setState(newState)
-
     e.currentTarget.value = '';
 }
 
