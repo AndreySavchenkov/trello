@@ -51,6 +51,7 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
                                                            writer={item.writer}
                                                            cardId={props.cardId}
                                                            columnId={props.columnId}
+                                                           setState={props.setState}
                                                            nameUser={props.nameUser}/>)
 
     return (

@@ -53,6 +53,7 @@ type PropsType = {
     nameUser: string,
     columnId: number,
     commentId: number,
+    setState: (state: any) => void,
 }
 
 export const Comment = memo((props: PropsType) => {
@@ -80,6 +81,19 @@ export const Comment = memo((props: PropsType) => {
         findComment.text = text
     }
 
+    const deleteComment = () => {
+        let findColumn = props.state.columns.find(item => item.id === props.columnId);
+        //@ts-ignore
+        let findCard = findColumn.cards.find(item => item.id === props.cardId);
+        //@ts-ignore
+        let filterComments = findCard.comments.filter(item => item.id !== props.commentId);
+        //@ts-ignore
+        findCard.comments = filterComments;
+        let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
+        let newState = {columns: newColumns}
+        props.setState(newState)
+    }
+
     return (
         <>
             <CommentWrapper>
@@ -92,7 +106,7 @@ export const Comment = memo((props: PropsType) => {
 
             <EditWrapper>
                 <EditComment onClick={clickHandler}>Изменить</EditComment>
-                <DeleteComment>Удалить</DeleteComment>
+                <DeleteComment onClick={deleteComment}>Удалить</DeleteComment>
             </EditWrapper>
 
         </>
