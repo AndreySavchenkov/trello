@@ -36,7 +36,7 @@ const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     //@ts-ignore
     let findCard = findColumn.cards.find(item => item.id === props.cardId);
     // @ts-ignore
-    findCard.comments = [...findCard.comments,{id:10, text:comment, writer: props.nameUser}]
+    findCard.comments = [...findCard.comments,{id:Date.now(), text:comment, writer: props.nameUser}]
     let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
     let newState = {columns: newColumns}
     props.setState(newState)

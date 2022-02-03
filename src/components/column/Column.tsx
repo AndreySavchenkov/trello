@@ -64,7 +64,7 @@ export const Column = (props: PropsType) => {
             //@ts-ignore
             ...findColumn, cards: [...findColumn.cards,
                 {
-                    id: 10,
+                    id: Date.now(),
                     writer: props.nameUser,
                     title: 'новая таска',
                     description: '',
@@ -75,6 +75,8 @@ export const Column = (props: PropsType) => {
         let newState = {columns: newColumns}
         props.setState(newState)
     }
+
+
 
     const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setNameChangeCard(e.currentTarget.value)
