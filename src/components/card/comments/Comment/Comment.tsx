@@ -1,6 +1,8 @@
-import React, {ChangeEvent, memo, useState} from "react";
+import React, {ChangeEvent, FC, memo, useState} from "react";
 import styled from "styled-components";
 import {DataT} from "../../../../state/data";
+import {useDispatch} from "react-redux";
+import {deleteComment, editComment} from "../../../../store/columnSlice";
 
 
 const CommentWrapper = styled.div`
@@ -47,15 +49,15 @@ const EditComment = styled.span`
 `
 type PropsType = {
     text: string,
-    state: DataT,
     cardId: number,
     writer: string,
     columnId: number,
     commentId: number,
-    setState: (state: any) => void,
 }
 
-export const Comment = memo((props: PropsType) => {
+export const Comment:FC<PropsType> = memo(({columnId,cardId,commentId,...props}) => {
+
+    const dispatch = useDispatch();
 
 
     const [isEdit, setIsEdit] = useState(true);
@@ -70,24 +72,11 @@ export const Comment = memo((props: PropsType) => {
     }
     const blurHandler = () => {
         setIsEdit(true)
-        let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        //@ts-ignore
-        let findCard = findColumn.cards.find(item => item.id === props.cardId);
-        //@ts-ignore
-        let findComment = findCard.comments.find(item => item.id === props.commentId);
-        //@ts-ignore
-        findComment.text = text
+        dispatch(editComment({columnId,cardId,commentId,text}))
     }
 
-    const deleteComment = () => {
-        let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        //@ts-ignore
-        let findCard = findColumn.cards.find(item => item.id === props.cardId);
-        //@ts-ignore
-        findCard.comments = findCard.comments.filter(item => item.id !== props.commentId);
-        let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
-        let newState = {columns: newColumns}
-        props.setState(newState)
+    const deleteCommentClick = () => {
+        dispatch(deleteComment({columnId,cardId,commentId}))
     }
 
     return (
@@ -102,7 +91,7 @@ export const Comment = memo((props: PropsType) => {
 
             <EditWrapper>
                 <EditComment onClick={clickHandler}>Изменить</EditComment>
-                <DeleteComment onClick={deleteComment}>Удалить</DeleteComment>
+                <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
             </EditWrapper>
         </>
     )

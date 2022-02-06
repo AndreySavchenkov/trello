@@ -1,6 +1,8 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import styled from "styled-components";
 import {DataT} from "../../../state/data";
+import {useDispatch} from "react-redux";
+import {addDescriptionCard} from "../../../store/columnSlice";
 
 const DescriptionWrapper = styled.div`
 
@@ -15,14 +17,14 @@ const DescriptionInput = styled.textarea`
   margin-bottom: 40px;
 `
 type PropsType = {
-    state: DataT,
     cardId: number,
     columnId: number,
     description: string,
-    setState: (state: any) => void,
 }
 
-export const Description = (props: PropsType) => {
+export const Description: FC<PropsType> = ({columnId, cardId, ...props}) => {
+
+    const dispatch = useDispatch();
 
     const [description, setDescription] = useState(props.description);
 
@@ -32,16 +34,7 @@ export const Description = (props: PropsType) => {
 
     const blurHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         e.currentTarget.value = '';
-
-        let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        //@ts-ignore
-        let findCard = findColumn.cards.find(item => item.id === props.cardId);
-        //@ts-ignore
-        findCard.description = description;
-        let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
-        let newState = {columns: newColumns}
-        props.setState(newState)
-
+        dispatch(addDescriptionCard({columnId, cardId, description}))
     }
 
 
@@ -51,7 +44,6 @@ export const Description = (props: PropsType) => {
                 {description ? description : 'Добавьте более подробной описание...'}
             </DescriptionText>
             <DescriptionInput
-                // value={description}
                 placeholder={'Описание...'}
                 onChange={changeHandler}
                 onBlur={blurHandler}

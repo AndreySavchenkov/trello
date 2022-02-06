@@ -1,13 +1,13 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, FC, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
 import deleteImage from "./../../assets/image/trash.png";
 import comment from "./../../assets/image/comment.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
-import {CommentsT, DataT} from "../../state/data";
+import {CommentsT} from "../../state/data";
 import {useDispatch} from "react-redux";
-import {deleteCard} from "../../store/columnSlice";
+import {deleteCard, editCardName} from "../../store/columnSlice";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -113,11 +113,11 @@ type PropsType = {
     columnName: string,
     description: string,
     comments: CommentsT,
-    nameChangeCard: string,
+    nameChangeColumn: string,
     // setState: (state: any) => void,
 }
 
-export const Card = (props: PropsType) => {
+export const Card:FC<PropsType> = ({columnId,cardId,...props}) => {
 
     const dispatch = useDispatch();
 
@@ -155,10 +155,11 @@ export const Card = (props: PropsType) => {
 
     const blurHandler = () => {
         setIsEdit(false)
+        dispatch(editCardName({columnId,cardId,cardName}))
     }
 
     const deleteCardClick = () => {
-        dispatch(deleteCard({columnId: props.columnId, cardId: props.cardId}))
+        dispatch(deleteCard({columnId, cardId}))
     }
 
     return (
@@ -183,17 +184,15 @@ export const Card = (props: PropsType) => {
                         <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
                     </TopContainer>
 
-                    <ColumnName>из колонки {props.nameChangeCard}</ColumnName>
+                    <ColumnName>из колонки {props.nameChangeColumn}</ColumnName>
 
 
-                    <Description state={props.state}
-                                 cardId={props.cardId}
-                                 setState={props.setState}
-                                 columnId={props.columnId}
+                    <Description cardId={cardId}
+                                 columnId={columnId}
                                  description={props.description}/>
 
-                    <Comments cardId={props.cardId}
-                              columnId={props.columnId}
+                    <Comments cardId={cardId}
+                              columnId={columnId}
                               comments={props.comments}
                     />
 

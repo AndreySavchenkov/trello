@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-type CommentT = {
+export type CommentT = {
     id: number,
     writer: string,
     text: string,
 }
 export type CommentsT = CommentT[]
 
-type CardT = {
+export type CardT = {
     id: number,
     writer: string,
     title: string,
@@ -23,7 +23,7 @@ export type ColumnT = {
     cards: CardsT,
 }
 
-type ColumnsT = ColumnT[]
+export type ColumnsT = ColumnT[]
 
 export type DataT = {
     columns: ColumnsT,
@@ -169,15 +169,21 @@ const columnSlice = createSlice({
     name: 'сolumn',
     initialState,
     reducers: {
-        deleteCard(state, action: PayloadAction<{columnId: number, cardId: number}>)  {
+        editColumnName(state, action: PayloadAction<{ columnId: number, nameChangeColumn: any }>) {
             const findColumn = state.columns.find(item => item.id === action.payload.columnId);
-            if(findColumn) {
+            if (findColumn) {
+                findColumn.title = action.payload.nameChangeColumn;
+            }
+        },
+        deleteCard(state, action: PayloadAction<{ columnId: number, cardId: number }>) {
+            const findColumn = state.columns.find(item => item.id === action.payload.columnId);
+            if (findColumn) {
                 findColumn.cards = findColumn.cards.filter(item => item.id !== action.payload.cardId);
             }
         },
-        addCard(state, action: PayloadAction<{columnId: number, loginName: any}>){
+        addCard(state, action: PayloadAction<{ columnId: number, loginName: any }>) {
             const findColumn = state.columns.find(item => item.id === action.payload.columnId);
-            if(findColumn) {
+            if (findColumn) {
                 findColumn.cards.push({
                     id: Date.now(),
                     writer: action.payload.loginName,
@@ -187,23 +193,65 @@ const columnSlice = createSlice({
                 });
             }
         },
-        addComment(state, action: PayloadAction<{columnId: number, cardId: number, comment: string, loginName: any}>){
+        editCardName(state, action: PayloadAction<{ columnId: number, cardId: number, cardName: any }>) {
             const findColumn = state.columns.find(item => item.id === action.payload.columnId);
-            if(findColumn) {
-              const findCard  = findColumn.cards.find(item => item.id === action.payload.cardId);
-              if(findCard) {
-                  findCard.comments.push({
-                      id:Date.now(),
-                      text:action.payload.comment,
-                      writer: action.payload.loginName
-                  })
-              }
+            if (findColumn) {
+                const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
+                if (findCard) {
+                    findCard.title = action.payload.cardName;
+                }
             }
-        }
+        },
+        addDescriptionCard(state, action: PayloadAction<{ columnId: number, cardId: number, description: any }>) {
+            const findColumn = state.columns.find(item => item.id === action.payload.columnId);
+            if (findColumn) {
+                const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
+                if (findCard) {
+                    findCard.description = action.payload.description;
+                }
+            }
+        },
+        addComment(state, action: PayloadAction<{ columnId: number, cardId: number, comment: string, loginName: any }>) {
+            const findColumn = state.columns.find(item => item.id === action.payload.columnId);
+            if (findColumn) {
+                const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
+                if (findCard) {
+                    findCard.comments.push({
+                        id: Date.now(),
+                        text: action.payload.comment,
+                        writer: action.payload.loginName
+                    })
+                }
+            }
+        },
+        deleteComment(state, action: PayloadAction<{ columnId: number, cardId: number, commentId: number }>) {
+            const findColumn = state.columns.find(item => item.id === action.payload.columnId);
+            if (findColumn) {
+                const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
+                if (findCard) {
+                    findCard.comments = findCard.comments.filter(item => item.id !== action.payload.commentId)
+                }
+            }
+        },
+        editComment(state, action: PayloadAction<{ columnId: number, cardId: number, commentId: number, text: any }>) {
+            const findColumn = state.columns.find(item => item.id === action.payload.columnId);
+            if (findColumn) {
+                const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
+                if (findCard) {
+                    const findComment = findCard.comments.find(item => item.id === action.payload.commentId)
+                    if (findComment) {
+                        findComment.text = action.payload.text
+                    }
+                }
+            }
+        },
     },
 })
 
 
-export const { deleteCard, addCard, addComment } = columnSlice.actions
+export const {
+    deleteCard, addCard, addComment, deleteComment, editComment,
+    addDescriptionCard, editColumnName, editCardName
+} = columnSlice.actions
 export default columnSlice.reducer
 

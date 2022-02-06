@@ -14,16 +14,16 @@ const loginSlice = createSlice({
     name: 'login',
     initialState,
     reducers: {
-        setIsLogin(state, action: PayloadAction<{value: boolean}>)  {
+        setIsLogin(state, action: PayloadAction<{ value: boolean }>) {
             state.isLogin = action.payload.value
         },
-        setLoginName(state, action: PayloadAction<{value: string}>)  {
+        setLoginName(state, action: PayloadAction<{ value: string }>) {
             state.loginName = action.payload.value
         }
     },
 })
 
 
-export const { setIsLogin, setLoginName } = loginSlice.actions
+export const {setIsLogin, setLoginName} = loginSlice.actions
 export default loginSlice.reducer
 

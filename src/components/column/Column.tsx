@@ -4,7 +4,7 @@ import {Card} from "../card/Card";
 import {CardsT, DataT} from "../../state/data";
 import {useDispatch, useSelector} from "react-redux";
 import {AppType} from "../../store/store";
-import {addCard} from "../../store/columnSlice";
+import {addCard, editColumnName} from "../../store/columnSlice";
 
 
 const WrapperColumn = styled.div`
@@ -46,18 +46,16 @@ export const Column: FC<PropsType> = ({columnId, ...props}) => {
     const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(false);
-    const [nameChangeCard, setNameChangeCard] = useState(props.name);
+    const [nameChangeColumn, setNameChangeColumn] = useState(props.name);
 
     let cardsShowArr = props.cards.map(item => <Card key={item.id}
                                                      cardId={item.id}
-                                                     // state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
                                                      writerCard={item.writer}
                                                      comments={item.comments}
-                                                     // setState={props.setState}
                                                      columnId={columnId}
-                                                     nameChangeCard={nameChangeCard}
+                                                     nameChangeColumn={nameChangeColumn}
                                                      description={item.description}/>)
 
     const clickHandler = () => {
@@ -65,20 +63,21 @@ export const Column: FC<PropsType> = ({columnId, ...props}) => {
     }
 
     const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
-        setNameChangeCard(e.currentTarget.value)
+        setNameChangeColumn(e.currentTarget.value)
     }
     const changeColumnName = () => {
         setIsEdit(true)
     }
     const onBlurHandler = () => {
         setIsEdit(false)
+        dispatch(editColumnName({columnId,nameChangeColumn}))
     }
 
     return (
         <WrapperColumn>
 
-            {!isEdit ? <ColumnName onClick={changeColumnName}>{nameChangeCard}</ColumnName>
-                : <EditColumnName value={nameChangeCard} onChange={changeHandler} onBlur={onBlurHandler}/>}
+            {!isEdit ? <ColumnName onClick={changeColumnName}>{nameChangeColumn}</ColumnName>
+                : <EditColumnName value={nameChangeColumn} onChange={changeHandler} onBlur={onBlurHandler}/>}
 
             <ListCards>
                 {cardsShowArr}
