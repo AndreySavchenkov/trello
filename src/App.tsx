@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Column} from "./components/column/Column";
-import styled  from "styled-components";
+import styled from "styled-components";
 import {Login} from "./components/login/Login";
-import {data, DataT} from "./state/data";
-
+import {CardsT, data, DataT} from "./state/data";
+import {useDispatch, useSelector} from "react-redux";
+import {AppType} from "./store/store";
+import {setIsLogin, setLoginName} from "./store/loginSlice";
+import {ColumnT} from "./store/columnSlice";
 
 
 const AppWrapper = styled.main`
@@ -18,29 +21,32 @@ const ColumnWrapper = styled.div`
 
 function App() {
 
-    const [state, setState] = useState<DataT>(data);
-    const [nameUser, setNameUser] = useState('');
+    const stateColumn = useSelector<AppType>(state => state.column.columns)
+    const isLogin = useSelector<AppType>(state => state.login.isLogin);
+    const dispatch = useDispatch();
+
+    // const [state, setState] = useState<DataT>(data);
 
     const localStorageNameUser = localStorage.getItem('nameUser');
 
     useEffect(() => {
         if (localStorageNameUser) {
-            setNameUser(localStorageNameUser)
+            dispatch(setLoginName({value: localStorageNameUser}))
+            dispatch(setIsLogin({value: true}))
         }
     }, [])
 
-    let columns = state.columns.map(item => <Column key={item.id}
-                                                    state={state}
-                                                    name={item.title}
-                                                    cards={item.cards}
-                                                    columnId={item.id}
-                                                    nameUser={nameUser}
-                                                    setState={setState}/>)
+
+    let columns = stateColumn.map((item: ColumnT) => <Column key={item.id}
+                                                             name={item.title}
+                                                             cards={item.cards}
+                                                             columnId={item.id}/>)
 
 
+    console.log(isLogin);
     return (
         <AppWrapper>
-            {!localStorageNameUser ? <Login name={nameUser} setName={setNameUser}/> : null}
+            {!isLogin ? <Login/> : null}
             <ColumnWrapper>
                 {columns}
             </ColumnWrapper>

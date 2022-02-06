@@ -1,7 +1,10 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, FC, useState} from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
 import {CardsT, DataT} from "../../state/data";
+import {useDispatch, useSelector} from "react-redux";
+import {AppType} from "../../store/store";
+import {addCard} from "../../store/columnSlice";
 
 
 const WrapperColumn = styled.div`
@@ -31,52 +34,35 @@ const EditColumnName = styled.input`
 
 `
 type PropsType = {
-    state: DataT,
     name: string,
     cards: CardsT,
     columnId: number,
-    nameUser: string,
-    setState: (state: any) => void,
 }
 
 
-export const Column = (props: PropsType) => {
+export const Column: FC<PropsType> = ({columnId, ...props}) => {
+
+    const loginName = useSelector<AppType>(state => state.login.loginName);
+    const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(false);
     const [nameChangeCard, setNameChangeCard] = useState(props.name);
 
     let cardsShowArr = props.cards.map(item => <Card key={item.id}
                                                      cardId={item.id}
-                                                     state={props.state}
+                                                     // state={props.state}
                                                      cardName={item.title}
                                                      columnName={props.name}
                                                      writerCard={item.writer}
                                                      comments={item.comments}
-                                                     nameUser={props.nameUser}
-                                                     setState={props.setState}
-                                                     columnId={props.columnId}
+                                                     // setState={props.setState}
+                                                     columnId={columnId}
                                                      nameChangeCard={nameChangeCard}
                                                      description={item.description}/>)
 
     const clickHandler = () => {
-        let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        let newColumn = {
-            //@ts-ignore
-            ...findColumn, cards: [...findColumn.cards,
-                {
-                    id: Date.now(),
-                    writer: props.nameUser,
-                    title: 'новая таска',
-                    description: '',
-                    comments: []
-                }]
-        }
-        let newColumns = props.state.columns.map(item => item.id === props.columnId ? newColumn : item)
-        let newState = {columns: newColumns}
-        props.setState(newState)
+        dispatch(addCard({columnId,loginName}))
     }
-
-
 
     const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
         setNameChangeCard(e.currentTarget.value)

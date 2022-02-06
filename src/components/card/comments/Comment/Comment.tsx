@@ -50,7 +50,6 @@ type PropsType = {
     state: DataT,
     cardId: number,
     writer: string,
-    nameUser: string,
     columnId: number,
     commentId: number,
     setState: (state: any) => void,

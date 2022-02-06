@@ -6,6 +6,8 @@ import comment from "./../../assets/image/comment.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
 import {CommentsT, DataT} from "../../state/data";
+import {useDispatch} from "react-redux";
+import {deleteCard} from "../../store/columnSlice";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -102,20 +104,22 @@ const WriterCard = styled.span`
 `
 
 type PropsType = {
-    state: DataT,
+    // state: DataT,
     cardId: number,
     cardName: string,
     columnId: number,
-    nameUser: string,
+    // nameUser: string,
     writerCard: string,
     columnName: string,
     description: string,
     comments: CommentsT,
     nameChangeCard: string,
-    setState: (state: any) => void,
+    // setState: (state: any) => void,
 }
 
 export const Card = (props: PropsType) => {
+
+    const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
@@ -153,13 +157,8 @@ export const Card = (props: PropsType) => {
         setIsEdit(false)
     }
 
-    const deleteCard = () => {
-        let findColumn = props.state.columns.find(item => item.id === props.columnId);
-        //@ts-ignore
-        findColumn.cards = findColumn.cards.filter(n => n.id !== props.cardId);
-        let newColumns = props.state.columns.map(item => item.id === props.columnId ? findColumn : item)
-        let newState = {columns: newColumns}
-        props.setState(newState)
+    const deleteCardClick = () => {
+        dispatch(deleteCard({columnId: props.columnId, cardId: props.cardId}))
     }
 
     return (
@@ -167,7 +166,7 @@ export const Card = (props: PropsType) => {
             <NameContainer>
                 <MainContainer>
                     <Name onClick={clickHandler}>{cardName}</Name>
-                    <DeleteImage onClick={deleteCard} src={deleteImage}/>
+                    <DeleteImage onClick={deleteCardClick} src={deleteImage}/>
                 </MainContainer>
                 <CommentCountContainer>
                     <CommentIcon src={comment} alt={"count comments"}/>
@@ -193,12 +192,10 @@ export const Card = (props: PropsType) => {
                                  columnId={props.columnId}
                                  description={props.description}/>
 
-                    <Comments state={props.state}
-                              cardId={props.cardId}
-                              setState={props.setState}
+                    <Comments cardId={props.cardId}
                               columnId={props.columnId}
                               comments={props.comments}
-                              nameUser={props.nameUser}/>
+                    />
 
                     <WriterCardBlock>
                         <WriterCard>{props.writerCard}</WriterCard> создал(а) карточку

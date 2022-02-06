@@ -1,6 +1,8 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
 import styled from "styled-components";
-import {DataT} from "../../state/data";
+import {useDispatch, useSelector} from "react-redux";
+import {setIsLogin, setLoginName} from "../../store/loginSlice";
+import {AppType} from "../../store/store";
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -33,36 +35,35 @@ const LoginInput = styled.input`
   margin-bottom: 40px;
 `
 const Button = styled.button`
-padding: 8px 12px;
+  padding: 8px 12px;
 `
 type PropsType = {
-    name: string,
-    setName: (name: any) => void
+
 }
 
 export const Login = (props: PropsType) => {
 
-    const [isOpen, setIsOpen] = useState(true)
+    const loginName = useSelector<AppType>(state => state.login.loginName)
+    const dispatch = useDispatch();
 
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        props.setName(e.currentTarget.value)
+        dispatch(setLoginName({value: e.currentTarget.value}))
     }
 
     const clickHandler = () => {
-        localStorage.setItem('nameUser', props.name)
-        setIsOpen(false)
+        //@ts-ignore
+        localStorage.setItem('nameUser', loginName)
+        dispatch(setIsLogin({value: true}))
     }
 
     return (
         <>
-            {isOpen ? <LoginWrapper>
-                    <LoginText>Напишите ваше имя: </LoginText>
-                    <LoginInput placeholder={'Имя...'}
-                                value={props.name}
-                                onChange={changeHandler}/>
-                    <Button onClick={clickHandler}>Это я</Button>
-                </LoginWrapper>
-                : null}
+            <LoginWrapper>
+                <LoginText>Напишите ваше имя: </LoginText>
+                <LoginInput placeholder={'Имя...'}
+                            onChange={changeHandler}/>
+                <Button onClick={clickHandler}>Это я</Button>
+            </LoginWrapper>
         </>
 
 

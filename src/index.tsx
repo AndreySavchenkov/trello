@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createGlobalStyle} from "styled-components";
+import {Provider} from "react-redux";
+import {store} from "./store/store";
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -11,7 +13,7 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     background: #599be1;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
     font-size: 14px;
   }
 `
@@ -19,8 +21,10 @@ const GlobalStyles = createGlobalStyle`
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
-        <GlobalStyles/>
+        <Provider store={store}>
+            <App/>
+            <GlobalStyles/>
+        </Provider>
     </React.StrictMode>,
     document.getElementById('root')
 );
