@@ -5,7 +5,8 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {createGlobalStyle} from "styled-components";
 import {Provider} from "react-redux";
-import {store} from "./store/store";
+import {persistor, store} from "./store/store";
+import {PersistGate} from "redux-persist/integration/react";
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -22,8 +23,10 @@ const GlobalStyles = createGlobalStyle`
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
-            <GlobalStyles/>
+            <PersistGate loading={null} persistor={persistor}>
+                <App/>
+                <GlobalStyles/>
+            </PersistGate>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root')
