@@ -7,6 +7,7 @@ import {AppType} from "../../../store/store";
 import {addComment, CommentsT} from "../../../store/columnSlice";
 
 const CommentsWrapper = styled.div`
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
 `
