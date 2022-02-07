@@ -1,13 +1,124 @@
-import React, {ChangeEvent, FC, memo, useEffect, useState} from "react";
+import React, {FC, memo, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
 import deleteImage from "./../../assets/image/trash.png";
 import comment from "./../../assets/image/comment.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
-
 import {useDispatch} from "react-redux";
 import {CommentsT, deleteCard, editCardName} from "../../store/columnSlice";
+import {Field, Form} from "react-final-form";
+
+type Props = {
+    cardId: number,
+    cardName: string,
+    columnId: number,
+    writerCard: string,
+    columnName: string,
+    description: string,
+    comments: CommentsT,
+}
+
+export const Card: FC<Props> = memo(({columnId, cardId, ...props}) => {
+
+    const dispatch = useDispatch();
+
+    const [isOpen, setIsOpen] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+
+    const clickHandler = () => {
+        setIsOpen(!isOpen)
+    }
+
+    const changeInput = () => {
+        setIsEdit(true)
+    }
+
+    const keyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+        if (e.key === "Escape") {
+            setIsOpen(false)
+        }
+    }
+
+    useEffect(() => {
+        //@ts-ignore
+        document.body.addEventListener('keydown', keyDownHandler);
+        return () => {
+            //@ts-ignore
+            document.body.removeEventListener('keydown', keyDownHandler);
+        }
+    }, []);
+
+    const deleteCardClick = () => {
+        dispatch(deleteCard({columnId, cardId}))
+    }
+
+    type valuesType = {
+        text: string,
+    }
+
+    const onSubmit = (values: valuesType) => {
+        dispatch(editCardName({columnId, cardId, cardName: values.text}))
+        values.text = '';
+        setIsEdit(false);
+    }
+
+    const required = (value: valuesType) => (value ? undefined : 'Напишите что-нибудь...')
+
+    return (
+        <>
+            <NameContainer>
+                <MainContainer>
+                    <Name onClick={clickHandler}>{props.cardName}</Name>
+                    <DeleteImage onClick={deleteCardClick} src={deleteImage}/>
+                </MainContainer>
+                <CommentCountContainer>
+                    <CommentIcon src={comment} alt={"count comments"}/>
+                    <CommentCount>{props.comments.length}</CommentCount>
+                </CommentCountContainer>
+            </NameContainer>
+
+            {isOpen ?
+                <CardWrapper onKeyDown={keyDownHandler}>
+
+                    <TopContainer>
+                        {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
+                            :
+                            <Form
+                                onSubmit={onSubmit}
+                                render={({handleSubmit}) => (
+                                    <form onSubmit={handleSubmit}>
+                                        <Field<any> name="text" validate={required}>
+                                            {({input, meta}) => (
+                                                <div style={{position: "relative", marginBottom: '20px'}}>
+                                                    <InputText type="text" {...input} placeholder="Колонка..."/>
+                                                    {meta.touched && meta.error && <Error>{meta.error}</Error>}
+                                                </div>
+                                            )}
+                                        </Field>
+                                        <button style={{marginBottom: '10px'}} type="submit">Изменить</button>
+                                    </form>
+                                )}
+                            />
+                        }
+                        <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
+                    </TopContainer>
+                    <ColumnName>из колонки {props.columnName}</ColumnName>
+                    <Description cardId={cardId}
+                                 columnId={columnId}
+                                 description={props.description}/>
+                    <Comments cardId={cardId}
+                              columnId={columnId}
+                              comments={props.comments}
+                    />
+                    <WriterCardBlock>
+                        <WriterCard>{props.writerCard}</WriterCard> создал(а) карточку
+                    </WriterCardBlock>
+                </CardWrapper> : null}
+        </>
+
+    )
+})
 
 const CardWrapper = styled.div`
   display: flex;
@@ -94,6 +205,12 @@ const DeleteImage = styled.img`
 const InputText = styled.input`
 
 `
+const Error = styled.span`
+  position: absolute;
+  display: block;
+  top: 20px;
+  color: darkred;
+`
 const WriterCardBlock = styled.div`
   margin-top: 40px;
 `
@@ -102,106 +219,6 @@ const WriterCard = styled.span`
   font-weight: 600;
   color: #172b4d;
 `
-
-type PropsType = {
-    cardId: number,
-    cardName: string,
-    columnId: number,
-    writerCard: string,
-    columnName: string,
-    description: string,
-    comments: CommentsT,
-    nameChangeColumn: string,
-}
-
-export const Card: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
-
-    const dispatch = useDispatch();
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [isEdit, setIsEdit] = useState(false);
-    const [cardName, setCardName] = useState(props.cardName)
-
-
-    const clickHandler = () => {
-        setIsOpen(!isOpen)
-    }
-
-    const changeInput = () => {
-        setIsEdit(true)
-    }
-
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setCardName(e.currentTarget.value)
-    }
-
-    const keyDownHandler = (e: React.KeyboardEvent<HTMLDivElement>): void => {
-        if (e.key === "Escape") {
-            setIsOpen(false)
-        }
-    }
-
-    useEffect(() => {
-        //@ts-ignore
-        document.body.addEventListener('keydown', keyDownHandler);
-        return () => {
-            //@ts-ignore
-            document.body.removeEventListener('keydown', keyDownHandler);
-        }
-    }, []);
-
-    const blurHandler = () => {
-        setIsEdit(false)
-        dispatch(editCardName({columnId, cardId, cardName}))
-    }
-
-    const deleteCardClick = () => {
-        dispatch(deleteCard({columnId, cardId}))
-    }
-
-    return (
-        <>
-            <NameContainer>
-                <MainContainer>
-                    <Name onClick={clickHandler}>{cardName}</Name>
-                    <DeleteImage onClick={deleteCardClick} src={deleteImage}/>
-                </MainContainer>
-                <CommentCountContainer>
-                    <CommentIcon src={comment} alt={"count comments"}/>
-                    <CommentCount>{props.comments.length}</CommentCount>
-                </CommentCountContainer>
-            </NameContainer>
-
-            {isOpen ?
-                <CardWrapper onKeyDown={keyDownHandler}>
-
-                    <TopContainer>
-                        {!isEdit ? <CardName onDoubleClick={changeInput}>{cardName}</CardName>
-                            : <InputText type='text' value={cardName} onChange={changeHandler} onBlur={blurHandler}/>}
-                        <ImageClose onClick={clickHandler} src={closeImage} alt="close"/>
-                    </TopContainer>
-
-                    <ColumnName>из колонки {props.nameChangeColumn}</ColumnName>
-
-
-                    <Description cardId={cardId}
-                                 columnId={columnId}
-                                 description={props.description}/>
-
-                    <Comments cardId={cardId}
-                              columnId={columnId}
-                              comments={props.comments}
-                    />
-
-                    <WriterCardBlock>
-                        <WriterCard>{props.writerCard}</WriterCard> создал(а) карточку
-                    </WriterCardBlock>
-
-                </CardWrapper> : null}
-        </>
-
-    )
-})
 
 
 

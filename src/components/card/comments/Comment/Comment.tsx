@@ -1,8 +1,71 @@
-import React, {ChangeEvent, FC, memo, useState} from "react";
+import React, {FC, memo, useState} from "react";
 import styled from "styled-components";
 import {useDispatch} from "react-redux";
 import {deleteComment, editComment} from "../../../../store/columnSlice";
+import {Field, Form} from "react-final-form";
 
+
+type Values = {
+    text: string,
+}
+type Props = {
+    text: string,
+    cardId: number,
+    writer: string,
+    columnId: number,
+    commentId: number,
+}
+
+export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props}) => {
+
+    const dispatch = useDispatch();
+
+    const [isEdit, setIsEdit] = useState(true);
+
+    const clickHandler = () => {
+        setIsEdit(!isEdit)
+    }
+    const deleteCommentClick = () => {
+        dispatch(deleteComment({columnId, cardId, commentId}))
+    }
+    const onSubmit = (values: Values) => {
+        dispatch(editComment({columnId, cardId, commentId, text: values.text}))
+        setIsEdit(true)
+        values.text = '';
+    }
+    const required = (value: Values) => (value ? undefined : 'Напишите что-нибудь...')
+
+    return (
+        <>
+            <CommentWrapper>
+                <Name>{props.writer}</Name>
+                {isEdit ? <Text>{props.text}</Text>
+                    :
+                    <Form
+                        onSubmit={onSubmit}
+                        render={({handleSubmit}) => (
+                            <form onSubmit={handleSubmit}>
+                                <Field<any> name="text" validate={required}>
+                                    {({input, meta}) => (
+                                        <div style={{position: "relative", marginBottom: '20px'}}>
+                                            <EditText type="text" {...input} placeholder="Колонка..."/>
+                                            {meta.touched && meta.error && <Error>{meta.error}</Error>}
+                                        </div>
+                                    )}
+                                </Field>
+                                <button style={{marginBottom: '10px'}} type="submit">Изменить</button>
+                            </form>
+                        )}
+                    />
+                }
+            </CommentWrapper>
+            <EditWrapper>
+                <EditComment onClick={clickHandler}>Изменить</EditComment>
+                <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
+            </EditWrapper>
+        </>
+    )
+})
 
 const CommentWrapper = styled.div`
   display: flex;
@@ -24,8 +87,14 @@ const Text = styled.span`
   display: block;
   margin-left: 20px;
 `
-const EditText = styled.input`
+const EditText = styled.textarea`
 
+`
+const Error = styled.span`
+  position: absolute;
+  display: block;
+  bottom: 6px;
+  color: darkred;
 `
 const EditWrapper = styled.div`
   margin-bottom: 10px;
@@ -44,54 +113,4 @@ const EditComment = styled.span`
   font-size: 12px;
   font-weight: 400;
   cursor: pointer;
-
 `
-type PropsType = {
-    text: string,
-    cardId: number,
-    writer: string,
-    columnId: number,
-    commentId: number,
-}
-
-export const Comment: FC<PropsType> = memo(({columnId, cardId, commentId, ...props}) => {
-
-    const dispatch = useDispatch();
-
-
-    const [isEdit, setIsEdit] = useState(true);
-    const [text, setText] = useState(props.text)
-
-
-    const clickHandler = () => {
-        setIsEdit(!isEdit)
-    }
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setText(e.currentTarget.value)
-    }
-    const blurHandler = () => {
-        setIsEdit(true)
-        dispatch(editComment({columnId, cardId, commentId, text}))
-    }
-
-    const deleteCommentClick = () => {
-        dispatch(deleteComment({columnId, cardId, commentId}))
-    }
-
-    return (
-        <>
-            <CommentWrapper>
-                <Name>{props.writer}</Name>
-                {isEdit ? <Text>{text}</Text> : <EditText type="text"
-                                                          value={text}
-                                                          onBlur={blurHandler}
-                                                          onChange={changeHandler}/>}
-            </CommentWrapper>
-
-            <EditWrapper>
-                <EditComment onClick={clickHandler}>Изменить</EditComment>
-                <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
-            </EditWrapper>
-        </>
-    )
-})

@@ -2,12 +2,18 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 type InitialState = {
     isLogin: boolean
-    loginName: string
+    loginData: {
+        name:string,
+        id: number | undefined,
+    }
 }
 
 const initialState = {
     isLogin: false,
-    loginName: '',
+    loginData: {
+        name: '',
+        id: undefined,
+    },
 } as InitialState
 
 const loginSlice = createSlice({
@@ -17,8 +23,9 @@ const loginSlice = createSlice({
         setIsLogin(state, action: PayloadAction<{ value: boolean }>) {
             state.isLogin = action.payload.value
         },
-        setLoginName(state, action: PayloadAction<{ value: string }>) {
-            state.loginName = action.payload.value
+        setLoginName(state, action: PayloadAction<{ value: string,id: number }>) {
+            state.loginData.name = action.payload.value;
+            state.loginData.id = action.payload.id;
         }
     },
 })

@@ -1,11 +1,77 @@
-import React, {ChangeEvent, FC, memo, useState} from "react";
+import React, {FC, memo, useState} from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
-
 import {useDispatch, useSelector} from "react-redux";
 import {AppType} from "../../store/store";
 import {addCard, CardsT, editColumnName} from "../../store/columnSlice";
+import {Field, Form} from "react-final-form";
 
+
+
+type Values = {
+    text: string,
+}
+type Props = {
+    name: string,
+    cards: CardsT,
+    columnId: number,
+}
+
+export const Column: FC<Props> = memo(({columnId, ...props}) => {
+
+    const loginName = useSelector<AppType>(state => state.login.loginData.name);
+    const dispatch = useDispatch();
+
+    const [isEdit, setIsEdit] = useState(false);
+
+    const clickHandler = () => {
+        dispatch(addCard({columnId, loginName}))
+    }
+    const changeColumnName = () => {
+        setIsEdit(true)
+    }
+    const onSubmit = (values: Values) => {
+        dispatch(editColumnName({columnId, nameChangeColumn:values.text}))
+        values.text = '';
+        setIsEdit(false);
+    }
+    const required = (value: Values) => (value ? undefined : 'Напишите что-нибудь...')
+
+    return (
+        <WrapperColumn>
+            {!isEdit ? <ColumnName onClick={changeColumnName}>{props.name}</ColumnName>
+                :
+                <Form
+                    onSubmit={onSubmit}
+                    render={({handleSubmit}) => (
+                        <form onSubmit={handleSubmit}>
+                            <Field<any> name="text" validate={required}>
+                                {({input, meta}) => (
+                                    <div style={{position: "relative", marginBottom: '20px'}}>
+                                        <EditColumnName type="text" {...input} placeholder="Колонка..."/>
+                                        {meta.touched && meta.error && <Error>{meta.error}</Error>}
+                                    </div>
+                                )}
+                            </Field>
+                            <button style={{marginBottom: '10px'}} type="submit">Изменить</button>
+                        </form>
+                    )}
+                />
+            }
+            <ListCards>
+                { props.cards.map(item => <Card key={item.id}
+                                                cardId={item.id}
+                                                columnId={columnId}
+                                                cardName={item.title}
+                                                columnName={props.name}
+                                                writerCard={item.writer}
+                                                comments={item.comments}
+                                                description={item.description}/>) }
+            </ListCards>
+            <Button onClick={clickHandler}>Добавить</Button>
+        </WrapperColumn>
+    )
+})
 
 const WrapperColumn = styled.div`
   padding: 5px;
@@ -33,56 +99,9 @@ const Button = styled.button`
 const EditColumnName = styled.input`
 
 `
-type PropsType = {
-    name: string,
-    cards: CardsT,
-    columnId: number,
-}
-
-
-export const Column: FC<PropsType> = memo(({columnId, ...props}) => {
-
-    const loginName = useSelector<AppType>(state => state.login.loginName);
-    const dispatch = useDispatch();
-
-    const [isEdit, setIsEdit] = useState(false);
-    const [nameChangeColumn, setNameChangeColumn] = useState(props.name);
-
-    let cardsShowArr = props.cards.map(item => <Card key={item.id}
-                                                     cardId={item.id}
-                                                     cardName={item.title}
-                                                     columnName={props.name}
-                                                     writerCard={item.writer}
-                                                     comments={item.comments}
-                                                     columnId={columnId}
-                                                     nameChangeColumn={nameChangeColumn}
-                                                     description={item.description}/>)
-
-    const clickHandler = () => {
-        dispatch(addCard({columnId, loginName}))
-    }
-
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNameChangeColumn(e.currentTarget.value)
-    }
-    const changeColumnName = () => {
-        setIsEdit(true)
-    }
-    const onBlurHandler = () => {
-        setIsEdit(false)
-        dispatch(editColumnName({columnId, nameChangeColumn}))
-    }
-
-    return (
-        <WrapperColumn>
-
-            {!isEdit ? <ColumnName onClick={changeColumnName}>{nameChangeColumn}</ColumnName>
-                : <EditColumnName value={nameChangeColumn} onChange={changeHandler} onBlur={onBlurHandler}/>}
-
-            <ListCards>
-                {cardsShowArr}
-            </ListCards>
-            <Button onClick={clickHandler}>Добавить</Button>
-        </WrapperColumn>
-    )
-})
+const Error = styled.span`
+  position: absolute;
+  display: block;
+  top: 20px;
+  color: darkred;
+`

@@ -4,6 +4,34 @@ import {useDispatch, useSelector} from "react-redux";
 import {setIsLogin, setLoginName} from "../../store/loginSlice";
 import {AppType} from "../../store/store";
 
+
+type PropsType = {}
+
+export const Login: FC<PropsType> = () => {
+
+    const loginName = useSelector<AppType>(state => state.login.loginData.name)
+    const dispatch = useDispatch();
+
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        dispatch(setLoginName({value: e.currentTarget.value, id: Date.now()}))
+    }
+
+    const clickHandler = () => {
+        //@ts-ignore
+        localStorage.setItem('nameUser', loginName)
+        dispatch(setIsLogin({value: true}))
+    }
+
+    return (
+        <LoginWrapper>
+            <LoginText>Напишите ваше имя: </LoginText>
+            <LoginInput placeholder={'Имя...'}
+                        onChange={changeHandler}/>
+            <Button onClick={clickHandler}>Это я</Button>
+        </LoginWrapper>
+    )
+}
+
 const LoginWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,33 +65,3 @@ const LoginInput = styled.input`
 const Button = styled.button`
   padding: 8px 12px;
 `
-type PropsType = {}
-
-export const Login: FC<PropsType> = () => {
-
-    const loginName = useSelector<AppType>(state => state.login.loginName)
-    const dispatch = useDispatch();
-
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setLoginName({value: e.currentTarget.value}))
-    }
-
-    const clickHandler = () => {
-        //@ts-ignore
-        localStorage.setItem('nameUser', loginName)
-        dispatch(setIsLogin({value: true}))
-    }
-
-    return (
-        <>
-            <LoginWrapper>
-                <LoginText>Напишите ваше имя: </LoginText>
-                <LoginInput placeholder={'Имя...'}
-                            onChange={changeHandler}/>
-                <Button onClick={clickHandler}>Это я</Button>
-            </LoginWrapper>
-        </>
-
-
-    )
-}

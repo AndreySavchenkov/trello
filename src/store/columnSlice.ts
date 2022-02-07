@@ -3,6 +3,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 export type CommentT = {
     id: number,
     writer: string,
+    idWriter: number,
     text: string,
 }
 export type CommentsT = CommentT[]
@@ -40,8 +41,8 @@ const initialState = {
                 title: 'прочитать книгу',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Андрей', text: 'кто какую читал?'},
-                    {id: 2, writer: 'Клим', text: 'Я не умею читать('}
+                    {id: 1, writer: 'Андрей', idWriter: 12312, text: 'кто какую читал?'},
+                    {id: 2, writer: 'Клим', idWriter: 1324723, text: 'Я не умею читать('}
                 ]
             },
                 {
@@ -50,7 +51,7 @@ const initialState = {
                     title: 'списать с ментором',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', text: 'когда напишешь?'},
+                        {id: 1, writer: 'Андрей', idWriter: 123458, text: 'когда напишешь?'},
                     ]
                 },
                 {
@@ -59,7 +60,7 @@ const initialState = {
                     title: 'позвонить Маше',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', text: 'передай привет'},
+                        {id: 1, writer: 'Андрей', idWriter: 1347342, text: 'передай привет'},
                     ]
                 }
             ]
@@ -73,8 +74,8 @@ const initialState = {
                 title: 'зделать Trello',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Коля', text: 'они не новые'},
-                    {id: 2, writer: 'Аня', text: 'не осуждаю'}
+                    {id: 1, writer: 'Коля', idWriter: 132823, text: 'они не новые'},
+                    {id: 2, writer: 'Аня', idWriter: 158423, text: 'не осуждаю'}
                 ]
             },
 
@@ -84,7 +85,7 @@ const initialState = {
                     title: 'изменить размер главного блока',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', text: 'как успехи?'},
+                        {id: 1, writer: 'Андрей', idWriter: 13478, text: 'как успехи?'},
                     ]
                 },
                 {
@@ -93,7 +94,7 @@ const initialState = {
                     title: 'посмотреть курс о react native',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', text: 'передай привет'},
+                        {id: 1, writer: 'Андрей', idWriter: 1743234, text: 'передай привет'},
                     ]
                 }
             ]
@@ -107,8 +108,8 @@ const initialState = {
                 title: 'пишу тесты',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Михаил', text: 'тестов много не бывает'},
-                    {id: 2, writer: 'Аня', text: 'не осуждаю'}
+                    {id: 1, writer: 'Михаил', idWriter: 1364, text: 'тестов много не бывает'},
+                    {id: 2, writer: 'Аня', idWriter: 1235, text: 'не осуждаю'}
                 ]
             },
 
@@ -118,7 +119,7 @@ const initialState = {
                     title: 'переписать на styled components',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Жека', text: 'почему не module?'},
+                        {id: 1, writer: 'Жека', idWriter: 1234723, text: 'почему не module?'},
                     ]
                 }
             ]
@@ -132,9 +133,9 @@ const initialState = {
                 title: 'почитать о Redux',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Клим', text: 'не забудь про redux-toolkit'},
-                    {id: 2, writer: 'Аня', text: 'I enjoy props'},
-                    {id: 1, writer: 'Клим', text: 'не забудь про redux-toolkit'},
+                    {id: 1, writer: 'Клим', idWriter: 133326, text: 'не забудь про redux-toolkit'},
+                    {id: 2, writer: 'Аня', idWriter: 1454534, text: 'I enjoy props'},
+                    {id: 1, writer: 'Клим', idWriter: 185458, text: 'не забудь про redux-toolkit'},
                 ]
             },
 
@@ -144,9 +145,9 @@ const initialState = {
                     title: 'разобраться с redux-toolkit',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Глеб', text: 'крутая штука!'},
-                        {id: 2, writer: 'Аня', text: 'хочу-хочу'},
-                        {id: 3, writer: 'Лиля', text: 'и я'},
+                        {id: 1, writer: 'Глеб', idWriter: 123688, text: 'крутая штука!'},
+                        {id: 2, writer: 'Аня', idWriter: 112353, text: 'хочу-хочу'},
+                        {id: 3, writer: 'Лиля', idWriter: 136342, text: 'и я'},
                     ]
                 },
                 {
@@ -155,8 +156,8 @@ const initialState = {
                     title: 'почитать о redux-ducks',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Лёня', text: 'утка?'},
-                        {id: 2, writer: 'Катя', text: 'кря)'},
+                        {id: 1, writer: 'Лёня', idWriter: 23, text: 'утка?'},
+                        {id: 2, writer: 'Катя', idWriter: 1223, text: 'кря)'},
                     ]
                 }
             ]
@@ -211,13 +212,14 @@ const columnSlice = createSlice({
                 }
             }
         },
-        addComment(state, action: PayloadAction<{ columnId: number, cardId: number, comment: string, loginName: any }>) {
+        addComment(state, action: PayloadAction<{ columnId: number, cardId: number, comment: string, loginName: any, idWriter: number }>) {
             const findColumn = state.columns.find(item => item.id === action.payload.columnId);
             if (findColumn) {
                 const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);
                 if (findCard) {
                     findCard.comments.push({
                         id: Date.now(),
+                        idWriter: action.payload.idWriter,
                         text: action.payload.comment,
                         writer: action.payload.loginName
                     })
