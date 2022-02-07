@@ -1,6 +1,5 @@
 import React, {ChangeEvent, FC, memo, useState} from "react";
 import styled from "styled-components";
-import {DataT} from "../../../../state/data";
 import {useDispatch} from "react-redux";
 import {deleteComment, editComment} from "../../../../store/columnSlice";
 
@@ -55,7 +54,7 @@ type PropsType = {
     commentId: number,
 }
 
-export const Comment:FC<PropsType> = memo(({columnId,cardId,commentId,...props}) => {
+export const Comment: FC<PropsType> = memo(({columnId, cardId, commentId, ...props}) => {
 
     const dispatch = useDispatch();
 
@@ -72,21 +71,21 @@ export const Comment:FC<PropsType> = memo(({columnId,cardId,commentId,...props})
     }
     const blurHandler = () => {
         setIsEdit(true)
-        dispatch(editComment({columnId,cardId,commentId,text}))
+        dispatch(editComment({columnId, cardId, commentId, text}))
     }
 
     const deleteCommentClick = () => {
-        dispatch(deleteComment({columnId,cardId,commentId}))
+        dispatch(deleteComment({columnId, cardId, commentId}))
     }
 
     return (
         <>
             <CommentWrapper>
-                    <Name>{props.writer}</Name>
-                    {isEdit ? <Text>{text}</Text> : <EditText type="text"
-                                                              value={text}
-                                                              onBlur={blurHandler}
-                                                              onChange={changeHandler}/>}
+                <Name>{props.writer}</Name>
+                {isEdit ? <Text>{text}</Text> : <EditText type="text"
+                                                          value={text}
+                                                          onBlur={blurHandler}
+                                                          onChange={changeHandler}/>}
             </CommentWrapper>
 
             <EditWrapper>

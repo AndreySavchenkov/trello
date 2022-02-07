@@ -1,10 +1,10 @@
-import React, {ChangeEvent, FC, useState} from "react";
+import React, {ChangeEvent, FC, memo, useState} from "react";
 import styled from "styled-components";
-import {CommentsT, DataT} from "../../../state/data";
+
 import {Comment} from "./Comment/Comment";
 import {useDispatch, useSelector} from "react-redux";
 import {AppType} from "../../../store/store";
-import {addComment} from "../../../store/columnSlice";
+import {addComment, CommentsT} from "../../../store/columnSlice";
 
 const CommentsWrapper = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ type PropsType = {
     comments: CommentsT,
 }
 
-export const Comments: FC<PropsType> = ({columnId, cardId, ...props}) => {
+export const Comments: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
 
     const loginName = useSelector<AppType>(state => state.login.loginName);
     const dispatch = useDispatch();
@@ -38,12 +38,12 @@ export const Comments: FC<PropsType> = ({columnId, cardId, ...props}) => {
         e.currentTarget.value = '';
     }
 
-    let showComments = props.comments.map(item => <Comment key={item.id}
-                                                           text={item.text}
-                                                           commentId={item.id}
-                                                           writer={item.writer}
-                                                           cardId={cardId}
-                                                           columnId={columnId}
+    const showComments = props.comments.map(item => <Comment key={item.id}
+                                                             text={item.text}
+                                                             commentId={item.id}
+                                                             writer={item.writer}
+                                                             cardId={cardId}
+                                                             columnId={columnId}
     />)
 
     return (
@@ -56,4 +56,4 @@ export const Comments: FC<PropsType> = ({columnId, cardId, ...props}) => {
             {showComments}
         </CommentsWrapper>
     )
-}
+})

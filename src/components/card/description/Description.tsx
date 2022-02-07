@@ -1,6 +1,6 @@
-import React, {ChangeEvent, FC, useState} from "react";
+import React, {ChangeEvent, FC, memo, useState} from "react";
 import styled from "styled-components";
-import {DataT} from "../../../state/data";
+
 import {useDispatch} from "react-redux";
 import {addDescriptionCard} from "../../../store/columnSlice";
 
@@ -22,7 +22,7 @@ type PropsType = {
     description: string,
 }
 
-export const Description: FC<PropsType> = ({columnId, cardId, ...props}) => {
+export const Description: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
 
     const dispatch = useDispatch();
 
@@ -50,4 +50,4 @@ export const Description: FC<PropsType> = ({columnId, cardId, ...props}) => {
             />
         </DescriptionWrapper>
     )
-}
+})

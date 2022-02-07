@@ -1,10 +1,10 @@
-import React, {ChangeEvent, FC, useState} from "react";
+import React, {ChangeEvent, FC, memo, useState} from "react";
 import styled from "styled-components";
 import {Card} from "../card/Card";
-import {CardsT, DataT} from "../../state/data";
+
 import {useDispatch, useSelector} from "react-redux";
 import {AppType} from "../../store/store";
-import {addCard, editColumnName} from "../../store/columnSlice";
+import {addCard, CardsT, editColumnName} from "../../store/columnSlice";
 
 
 const WrapperColumn = styled.div`
@@ -40,7 +40,7 @@ type PropsType = {
 }
 
 
-export const Column: FC<PropsType> = ({columnId, ...props}) => {
+export const Column: FC<PropsType> = memo(({columnId, ...props}) => {
 
     const loginName = useSelector<AppType>(state => state.login.loginName);
     const dispatch = useDispatch();
@@ -59,10 +59,10 @@ export const Column: FC<PropsType> = ({columnId, ...props}) => {
                                                      description={item.description}/>)
 
     const clickHandler = () => {
-        dispatch(addCard({columnId,loginName}))
+        dispatch(addCard({columnId, loginName}))
     }
 
-    const changeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNameChangeColumn(e.currentTarget.value)
     }
     const changeColumnName = () => {
@@ -70,7 +70,7 @@ export const Column: FC<PropsType> = ({columnId, ...props}) => {
     }
     const onBlurHandler = () => {
         setIsEdit(false)
-        dispatch(editColumnName({columnId,nameChangeColumn}))
+        dispatch(editColumnName({columnId, nameChangeColumn}))
     }
 
     return (
@@ -85,4 +85,4 @@ export const Column: FC<PropsType> = ({columnId, ...props}) => {
             <Button onClick={clickHandler}>Добавить</Button>
         </WrapperColumn>
     )
-}
+})

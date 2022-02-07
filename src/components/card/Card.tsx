@@ -1,13 +1,13 @@
-import React, {ChangeEvent, FC, useEffect, useState} from "react";
+import React, {ChangeEvent, FC, memo, useEffect, useState} from "react";
 import styled from "styled-components";
 import closeImage from "./../../assets/image/close.png";
 import deleteImage from "./../../assets/image/trash.png";
 import comment from "./../../assets/image/comment.png";
 import {Description} from "./description/Description";
 import {Comments} from "./comments/Comments";
-import {CommentsT} from "../../state/data";
+
 import {useDispatch} from "react-redux";
-import {deleteCard, editCardName} from "../../store/columnSlice";
+import {CommentsT, deleteCard, editCardName} from "../../store/columnSlice";
 
 const CardWrapper = styled.div`
   display: flex;
@@ -104,20 +104,17 @@ const WriterCard = styled.span`
 `
 
 type PropsType = {
-    // state: DataT,
     cardId: number,
     cardName: string,
     columnId: number,
-    // nameUser: string,
     writerCard: string,
     columnName: string,
     description: string,
     comments: CommentsT,
     nameChangeColumn: string,
-    // setState: (state: any) => void,
 }
 
-export const Card:FC<PropsType> = ({columnId,cardId,...props}) => {
+export const Card: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
 
     const dispatch = useDispatch();
 
@@ -155,7 +152,7 @@ export const Card:FC<PropsType> = ({columnId,cardId,...props}) => {
 
     const blurHandler = () => {
         setIsEdit(false)
-        dispatch(editCardName({columnId,cardId,cardName}))
+        dispatch(editCardName({columnId, cardId, cardName}))
     }
 
     const deleteCardClick = () => {
@@ -204,7 +201,7 @@ export const Card:FC<PropsType> = ({columnId,cardId,...props}) => {
         </>
 
     )
-}
+})
 
 
 

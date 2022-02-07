@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, FC} from "react";
 import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsLogin, setLoginName} from "../../store/loginSlice";
@@ -37,11 +37,9 @@ const LoginInput = styled.input`
 const Button = styled.button`
   padding: 8px 12px;
 `
-type PropsType = {
+type PropsType = {}
 
-}
-
-export const Login = (props: PropsType) => {
+export const Login: FC<PropsType> = () => {
 
     const loginName = useSelector<AppType>(state => state.login.loginName)
     const dispatch = useDispatch();
