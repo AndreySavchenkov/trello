@@ -9,6 +9,9 @@ import {useDispatch} from "react-redux";
 import {CommentsT, deleteCard, editCardName} from "../../store/columnSlice";
 import {Field, Form} from "react-final-form";
 
+type valuesType = {
+    text: string,
+}
 type Props = {
     cardId: number,
     cardName: string,
@@ -53,16 +56,11 @@ export const Card: FC<Props> = memo(({columnId, cardId, ...props}) => {
         dispatch(deleteCard({columnId, cardId}))
     }
 
-    type valuesType = {
-        text: string,
-    }
-
     const onSubmit = (values: valuesType) => {
         dispatch(editCardName({columnId, cardId, cardName: values.text}))
         values.text = '';
         setIsEdit(false);
     }
-
     const required = (value: valuesType) => (value ? undefined : 'Напишите что-нибудь...')
 
     return (
@@ -77,10 +75,8 @@ export const Card: FC<Props> = memo(({columnId, cardId, ...props}) => {
                     <CommentCount>{props.comments.length}</CommentCount>
                 </CommentCountContainer>
             </NameContainer>
-
             {isOpen ?
                 <CardWrapper onKeyDown={keyDownHandler}>
-
                     <TopContainer>
                         {!isEdit ? <CardName onDoubleClick={changeInput}>{props.cardName}</CardName>
                             :
@@ -116,7 +112,6 @@ export const Card: FC<Props> = memo(({columnId, cardId, ...props}) => {
                     </WriterCardBlock>
                 </CardWrapper> : null}
         </>
-
     )
 })
 

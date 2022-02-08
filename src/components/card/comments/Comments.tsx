@@ -19,10 +19,11 @@ type PropsType = {
 export const Comments: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
 
     const loginName = useSelector<AppType>(state => state.login.loginData.name);
+    const loginId = useSelector<AppType>(state => state.login.loginData.id);
     const dispatch = useDispatch();
-    
+
     const onSubmit = (values: Values) => {
-        dispatch(addComment({columnId, cardId, comment: values.text, loginName}))
+        dispatch(addComment({columnId, cardId, comment: values.text, loginName, idWriter: loginId}))
         values.text = '';
     }
     const required = (value: Values) => (value ? undefined : 'Напишите что-нибудь...')
@@ -46,12 +47,13 @@ export const Comments: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
                     </form>
                 )}
             />
-            { props.comments.map(item => <Comment key={item.id}
-                                                  text={item.text}
-                                                  commentId={item.id}
-                                                  writer={item.writer}
-                                                  cardId={cardId}
-                                                  columnId={columnId}/>) }
+            {props.comments.map(item => <Comment key={item.id}
+                                                 idWriter={item.idWriter}
+                                                 text={item.text}
+                                                 commentId={item.id}
+                                                 writer={item.writer}
+                                                 cardId={cardId}
+                                                 columnId={columnId}/>)}
         </CommentsWrapper>
     )
 })

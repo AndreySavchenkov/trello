@@ -1,8 +1,9 @@
 import React, {FC, memo, useState} from "react";
 import styled from "styled-components";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {deleteComment, editComment} from "../../../../store/columnSlice";
 import {Field, Form} from "react-final-form";
+import {AppType} from "../../../../store/store";
 
 
 type Values = {
@@ -14,10 +15,12 @@ type Props = {
     writer: string,
     columnId: number,
     commentId: number,
+    idWriter: number,
 }
 
 export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props}) => {
 
+    const loginId = useSelector<AppType>(state => state.login.loginData.id);
     const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(true);
@@ -60,7 +63,7 @@ export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props})
                 }
             </CommentWrapper>
             <EditWrapper>
-                <EditComment onClick={clickHandler}>Изменить</EditComment>
+                {loginId === props.idWriter ? <EditComment onClick={clickHandler}>Изменить</EditComment> : null}
                 <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
             </EditWrapper>
         </>

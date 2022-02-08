@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Column} from "./components/column/Column";
 import styled from "styled-components";
 import {Login} from "./components/login/Login";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppType} from "./store/store";
-import {setIsLogin, setLoginName} from "./store/loginSlice";
 import {ColumnsT, ColumnT} from "./store/columnSlice";
 
 
@@ -12,16 +11,6 @@ function App() {
 
     const stateColumn = useSelector<AppType>(state => state.column.columns) as ColumnsT;
     const isLogin = useSelector<AppType>(state => state.login.isLogin);
-    const dispatch = useDispatch();
-
-    const localStorageNameUser = localStorage.getItem('nameUser');
-
-    useEffect(() => {
-        if (localStorageNameUser) {
-            dispatch(setLoginName({value: localStorageNameUser, id: Date.now()}))
-            dispatch(setIsLogin({value: true}))
-        }
-    }, [])
 
     return (
         <AppWrapper>

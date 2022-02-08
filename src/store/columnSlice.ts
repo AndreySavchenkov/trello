@@ -212,7 +212,7 @@ const columnSlice = createSlice({
                 }
             }
         },
-        addComment(state, action: PayloadAction<{ columnId: number, cardId: number, comment: string, loginName: any, idWriter: number }>) {
+        addComment(state, action: PayloadAction<{ columnId: number, cardId: number, comment: string, loginName: any, idWriter: any }>) {
             const findColumn = state.columns.find(item => item.id === action.payload.columnId);
             if (findColumn) {
                 const findCard = findColumn.cards.find(item => item.id === action.payload.cardId);

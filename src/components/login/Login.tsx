@@ -3,31 +3,43 @@ import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsLogin, setLoginName} from "../../store/loginSlice";
 import {AppType} from "../../store/store";
+import {Form, Field} from "react-final-form";
 
+type Values = {
+    text: string,
+}
 
 type PropsType = {}
 
 export const Login: FC<PropsType> = () => {
 
-    const loginName = useSelector<AppType>(state => state.login.loginData.name)
     const dispatch = useDispatch();
 
-    const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(setLoginName({value: e.currentTarget.value, id: Date.now()}))
-    }
-
-    const clickHandler = () => {
-        //@ts-ignore
-        localStorage.setItem('nameUser', loginName)
-        dispatch(setIsLogin({value: true}))
+    const onSubmit = (values: Values) => {
+        dispatch(setIsLogin({value: true}));
+        dispatch(setLoginName({value: values.text, id: Date.now()}));
     }
 
     return (
         <LoginWrapper>
             <LoginText>Напишите ваше имя: </LoginText>
-            <LoginInput placeholder={'Имя...'}
-                        onChange={changeHandler}/>
-            <Button onClick={clickHandler}>Это я</Button>
+            <Form
+                onSubmit={onSubmit}
+                render={({handleSubmit}) => (
+                    <form style={{display: 'flex', flexDirection: 'column',alignItems: 'center'}} onSubmit={handleSubmit}>
+                        <Field
+                            name="text"
+                            render={({input, meta}) => (
+                                <div>
+                                    <LoginInput {...input} />
+                                    {meta.touched && meta.error && <span>{meta.error}</span>}
+                                </div>
+                            )}
+                        />
+                        <Button style={{width: '100px'}} type="submit">Изменить</Button>
+                    </form>
+                )}
+            />
         </LoginWrapper>
     )
 }
