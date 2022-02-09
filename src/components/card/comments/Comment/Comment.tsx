@@ -7,7 +7,7 @@ import {AppType} from "store/store";
 import styled from "styled-components";
 
 import {Field, Form} from "react-final-form";
-import {getIsLogin} from "../../../../store/selectors";
+import {getIsLogin, getLoginId} from "../../../../store/selectors";
 
 
 
@@ -25,7 +25,7 @@ type Props = {
 
 export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props}) => {
 
-    const loginId = useSelector<AppType>(getIsLogin);
+    const loginId = useSelector<AppType>(getLoginId);
     const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(true);
