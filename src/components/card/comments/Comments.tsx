@@ -1,10 +1,15 @@
 import React, {FC, memo} from "react";
-import styled from "styled-components";
-import {Comment} from "./Comment/Comment";
+
 import {useDispatch, useSelector} from "react-redux";
-import {AppType} from "../../../store/store";
-import {addComment, CommentsT} from "../../../store/columnSlice";
+import {addComment, CommentsType} from "store/columnSlice";
+import {AppType} from "store/store";
+
+import styled from "styled-components";
+
+import {Comment} from "components";
+
 import {Field, Form} from "react-final-form";
+import {getLoginId, getLoginName} from "store/selectors";
 
 
 type Values = {
@@ -13,13 +18,13 @@ type Values = {
 type PropsType = {
     cardId: number,
     columnId: number,
-    comments: CommentsT,
+    comments: CommentsType,
 }
 
 export const Comments: FC<PropsType> = memo(({columnId, cardId, ...props}) => {
 
-    const loginName = useSelector<AppType>(state => state.login.loginData.name);
-    const loginId = useSelector<AppType>(state => state.login.loginData.id);
+    const loginName = useSelector<AppType>(getLoginName);
+    const loginId = useSelector<AppType>(getLoginId);
     const dispatch = useDispatch();
 
     const onSubmit = (values: Values) => {

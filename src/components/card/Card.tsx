@@ -1,12 +1,16 @@
 import React, {FC, memo, useEffect, useState} from "react";
-import styled from "styled-components";
-import closeImage from "./../../assets/image/close.png";
-import deleteImage from "./../../assets/image/trash.png";
-import comment from "./../../assets/image/comment.png";
-import {Description} from "./description/Description";
-import {Comments} from "./comments/Comments";
+
 import {useDispatch} from "react-redux";
-import {CommentsT, deleteCard, editCardName} from "../../store/columnSlice";
+import {CommentsType, deleteCard, editCardName} from "store/columnSlice";
+
+import styled from "styled-components";
+
+import closeImage from "assets/image/close.png";
+import deleteImage from "assets/image/trash.png";
+import comment from "assets/image/comment.png";
+
+import {Comments, Description} from "components";
+
 import {Field, Form} from "react-final-form";
 
 type valuesType = {
@@ -19,7 +23,7 @@ type Props = {
     writerCard: string,
     columnName: string,
     description: string,
-    comments: CommentsT,
+    comments: CommentsType,
 }
 
 export const Card: FC<Props> = memo(({columnId, cardId, ...props}) => {

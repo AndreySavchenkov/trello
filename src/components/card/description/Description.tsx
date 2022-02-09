@@ -1,8 +1,12 @@
 import React, {FC, memo, useState} from "react";
-import styled from "styled-components";
-import {Form, Field} from 'react-final-form';
+
 import {useDispatch} from "react-redux";
-import {addDescriptionCard} from "../../../store/columnSlice";
+import {addDescriptionCard} from "store/columnSlice";
+
+import styled from "styled-components";
+
+import {Form, Field} from 'react-final-form';
+
 
 
 type Values = {

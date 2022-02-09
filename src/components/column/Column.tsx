@@ -1,10 +1,16 @@
 import React, {FC, memo, useState} from "react";
-import styled from "styled-components";
-import {Card} from "../card/Card";
+
 import {useDispatch, useSelector} from "react-redux";
-import {AppType} from "../../store/store";
-import {addCard, CardsT, editColumnName} from "../../store/columnSlice";
+import {AppType} from "store/store";
+import {addCard, Cards, editColumnName} from "store/columnSlice";
+
+import styled from "styled-components";
+
+import {Card} from "components";
+
 import {Field, Form} from "react-final-form";
+import {getLoginName} from "../../store/selectors";
+
 
 
 
@@ -13,13 +19,13 @@ type Values = {
 }
 type Props = {
     name: string,
-    cards: CardsT,
+    cards: Cards,
     columnId: number,
 }
 
 export const Column: FC<Props> = memo(({columnId, ...props}) => {
 
-    const loginName = useSelector<AppType>(state => state.login.loginData.name);
+    const loginName = useSelector<AppType>(getLoginName);
     const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(false);

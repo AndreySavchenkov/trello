@@ -1,33 +1,33 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-export type CommentT = {
+export type Comment = {
     id: number,
     writer: string,
     idWriter: number,
     text: string,
 }
-export type CommentsT = CommentT[]
+export type CommentsType = Comment[]
 
-export type CardT = {
+export type Card = {
     id: number,
     writer: string,
     title: string,
     description: string,
-    comments: CommentsT,
+    comments: CommentsType,
 }
 
-export type CardsT = CardT[]
+export type Cards = Card[]
 
-export type ColumnT = {
+export type ColumnType = {
     id: number,
     title: string,
-    cards: CardsT,
+    cards: Cards,
 }
 
-export type ColumnsT = ColumnT[]
+export type Columns = ColumnType[]
 
-export type DataT = {
-    columns: ColumnsT,
+export type Data = {
+    columns: Columns,
 }
 
 const initialState = {
@@ -38,10 +38,10 @@ const initialState = {
             cards: [{
                 id: 1,
                 writer: 'Жека',
-                title: 'прочитать книгу',
+                title: 'прочитать книгу Совершенный Код',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Андрей', idWriter: 12312, text: 'кто какую читал?'},
+                    {id: 1, writer: 'Андрей', idWriter: 12312, text: 'картинки есть?'},
                     {id: 2, writer: 'Клим', idWriter: 1324723, text: 'Я не умею читать('}
                 ]
             },
@@ -57,10 +57,10 @@ const initialState = {
                 {
                     id: 3,
                     writer: 'Рома',
-                    title: 'позвонить Маше',
+                    title: 'Подключить redux-persist',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', idWriter: 1347342, text: 'передай привет'},
+                        {id: 1, writer: 'Андрей', idWriter: 1347342, text: 'для синхронизации стейта с local storage?'},
                     ]
                 }
             ]
@@ -71,10 +71,10 @@ const initialState = {
             cards: [{
                 id: 1,
                 writer: 'Андрей',
-                title: 'зделать Trello',
+                title: 'зделать аналог Trello',
                 description: '',
                 comments: [
-                    {id: 1, writer: 'Коля', idWriter: 132823, text: 'они не новые'},
+                    {id: 1, writer: 'Коля', idWriter: 132823, text: 'подключи styled components'},
                     {id: 2, writer: 'Аня', idWriter: 158423, text: 'не осуждаю'}
                 ]
             },
@@ -82,10 +82,10 @@ const initialState = {
                 {
                     id: 2,
                     writer: 'Жека',
-                    title: 'изменить размер главного блока',
+                    title: 'писать компоненты через index.ts',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', idWriter: 13478, text: 'как успехи?'},
+                        {id: 1, writer: 'Андрей', idWriter: 13478, text: 'удобно?'},
                     ]
                 },
                 {
@@ -94,7 +94,8 @@ const initialState = {
                     title: 'посмотреть курс о react native',
                     description: '',
                     comments: [
-                        {id: 1, writer: 'Андрей', idWriter: 1743234, text: 'передай привет'},
+                        {id: 1, writer: 'Андрей', idWriter: 1743234, text: 'good luck, bro!'},
+                        {id: 2, writer: 'Коля', idWriter: 1743234, text: 'желаю поменьше боли!)'},
                     ]
                 }
             ]
@@ -105,7 +106,7 @@ const initialState = {
             cards: [{
                 id: 1,
                 writer: 'Алиса',
-                title: 'пишу тесты',
+                title: 'пиши тесты',
                 description: '',
                 comments: [
                     {id: 1, writer: 'Михаил', idWriter: 1364, text: 'тестов много не бывает'},
@@ -164,7 +165,7 @@ const initialState = {
         },
 
     ]
-} as DataT
+} as Data
 
 const columnSlice = createSlice({
     name: 'сolumn',

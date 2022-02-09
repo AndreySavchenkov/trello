@@ -1,9 +1,14 @@
 import React, {FC, memo, useState} from "react";
-import styled from "styled-components";
+
 import {useDispatch, useSelector} from "react-redux";
-import {deleteComment, editComment} from "../../../../store/columnSlice";
+import {deleteComment, editComment} from "store/columnSlice";
+import {AppType} from "store/store";
+
+import styled from "styled-components";
+
 import {Field, Form} from "react-final-form";
-import {AppType} from "../../../../store/store";
+import {getIsLogin} from "../../../../store/selectors";
+
 
 
 type Values = {
@@ -20,7 +25,7 @@ type Props = {
 
 export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props}) => {
 
-    const loginId = useSelector<AppType>(state => state.login.loginData.id);
+    const loginId = useSelector<AppType>(getIsLogin);
     const dispatch = useDispatch();
 
     const [isEdit, setIsEdit] = useState(true);
@@ -63,8 +68,11 @@ export const Comment: FC<Props> = memo(({columnId, cardId, commentId, ...props})
                 }
             </CommentWrapper>
             <EditWrapper>
-                {loginId === props.idWriter ? <EditComment onClick={clickHandler}>Изменить</EditComment> : null}
-                <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
+                {loginId === props.idWriter
+                    ? <>
+                        <EditComment onClick={clickHandler}>Изменить</EditComment>
+                        <DeleteComment onClick={deleteCommentClick}>Удалить</DeleteComment>
+                    </> : null}
             </EditWrapper>
         </>
     )

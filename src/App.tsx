@@ -1,25 +1,29 @@
 import React from 'react';
-import {Column} from "./components/column/Column";
-import styled from "styled-components";
-import {Login} from "./components/login/Login";
 import {useSelector} from "react-redux";
-import {AppType} from "./store/store";
-import {ColumnsT, ColumnT} from "./store/columnSlice";
+
+import styled from "styled-components";
+
+import {Login, Column} from "./components";
+
+import {AppType} from "store/store";
+import {Columns, ColumnType} from "store/columnSlice";
+import {getAllColumns, getIsLogin} from "store/selectors";
+
 
 
 function App() {
 
-    const stateColumn = useSelector<AppType>(state => state.column.columns) as ColumnsT;
-    const isLogin = useSelector<AppType>(state => state.login.isLogin);
+    const stateColumn = useSelector<AppType>(getAllColumns) as Columns;
+    const isLogin = useSelector<AppType>(getIsLogin);
 
     return (
         <AppWrapper>
             {!isLogin ? <Login/> : null}
             <ColumnWrapper>
-                {stateColumn.map((item: ColumnT) => <Column key={item.id}
-                                                            name={item.title}
-                                                            cards={item.cards}
-                                                            columnId={item.id}/>)}
+                {stateColumn.map((item: ColumnType) => <Column key={item.id}
+                                                                   name={item.title}
+                                                                   cards={item.cards}
+                                                                   columnId={item.id}/>)}
             </ColumnWrapper>
         </AppWrapper>
     )

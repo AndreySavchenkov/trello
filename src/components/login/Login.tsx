@@ -1,17 +1,16 @@
-import React, {ChangeEvent, FC} from "react";
+import React, {FC} from "react";
+
+import {useDispatch} from "react-redux";
+import {setIsLogin, setLoginName} from "store/loginSlice";
+
 import styled from "styled-components";
-import {useDispatch, useSelector} from "react-redux";
-import {setIsLogin, setLoginName} from "../../store/loginSlice";
-import {AppType} from "../../store/store";
 import {Form, Field} from "react-final-form";
 
 type Values = {
     text: string,
 }
 
-type PropsType = {}
-
-export const Login: FC<PropsType> = () => {
+export const Login: FC = () => {
 
     const dispatch = useDispatch();
 
@@ -26,7 +25,8 @@ export const Login: FC<PropsType> = () => {
             <Form
                 onSubmit={onSubmit}
                 render={({handleSubmit}) => (
-                    <form style={{display: 'flex', flexDirection: 'column',alignItems: 'center'}} onSubmit={handleSubmit}>
+                    <form style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}
+                          onSubmit={handleSubmit}>
                         <Field
                             name="text"
                             render={({input, meta}) => (
