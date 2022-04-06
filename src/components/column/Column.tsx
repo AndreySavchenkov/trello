@@ -1,83 +1,88 @@
-import React, {FC, memo, useState} from "react";
+import React, { FC, memo, useState } from 'react';
 
-import {useDispatch, useSelector} from "react-redux";
-import {AppType} from "store/store";
-import {addCard, Cards, editColumnName} from "store/columnSlice";
+import { Field, Form } from 'react-final-form';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 
-import styled from "styled-components";
-
-import {Card} from "components";
-
-import {Field, Form} from "react-final-form";
-import {getLoginName} from "../../store/selectors";
-
-
-
+import { Card } from 'components';
+import { addCard, Cards, editColumnName } from 'store/columnSlice';
+import { getLoginName } from 'store/selectors';
+import { AppType } from 'store/store';
+import { required } from 'utils/utils';
 
 type Values = {
-    text: string,
-}
+  text: string;
+};
 type Props = {
-    name: string,
-    cards: Cards,
-    columnId: number,
-}
+  name: string;
+  cards: Cards;
+  columnId: number;
+};
 
-export const Column: FC<Props> = memo(({columnId, ...props}) => {
+export const Column: FC<Props> = memo(({ columnId, ...props }) => {
+  const [isEdit, setIsEdit] = useState(false);
 
-    const loginName = useSelector<AppType>(getLoginName);
-    const dispatch = useDispatch();
+  const loginName = useSelector<AppType>(getLoginName);
+  const dispatch = useDispatch();
 
-    const [isEdit, setIsEdit] = useState(false);
+  const onButtonClick = (): void => {
+    dispatch(addCard({ columnId, loginName }));
+  };
 
-    const clickHandler = () => {
-        dispatch(addCard({columnId, loginName}))
-    }
-    const changeColumnName = () => {
-        setIsEdit(true)
-    }
-    const onSubmit = (values: Values) => {
-        dispatch(editColumnName({columnId, nameChangeColumn:values.text}))
-        values.text = '';
-        setIsEdit(false);
-    }
-    const required = (value: Values) => (value ? undefined : 'Напишите что-нибудь...')
+  const onColumnNameClick = (): void => {
+    setIsEdit(true);
+  };
 
-    return (
-        <WrapperColumn>
-            {!isEdit ? <ColumnName onClick={changeColumnName}>{props.name}</ColumnName>
-                :
-                <Form
-                    onSubmit={onSubmit}
-                    render={({handleSubmit}) => (
-                        <form onSubmit={handleSubmit}>
-                            <Field<any> name="text" validate={required}>
-                                {({input, meta}) => (
-                                    <div style={{position: "relative", marginBottom: '20px'}}>
-                                        <EditColumnName type="text" {...input} placeholder="Колонка..."/>
-                                        {meta.touched && meta.error && <Error>{meta.error}</Error>}
-                                    </div>
-                                )}
-                            </Field>
-                            <button style={{marginBottom: '10px'}} type="submit">Изменить</button>
-                        </form>
-                    )}
-                />
-            }
-            <ListCards>
-                { props.cards.map(item => <Card key={item.id}
-                                                cardId={item.id}
-                                                columnId={columnId}
-                                                cardName={item.title}
-                                                columnName={props.name}
-                                                writerCard={item.writer}
-                                                comments={item.comments}
-                                                description={item.description}/>) }
-            </ListCards>
-            <Button onClick={clickHandler}>Добавить</Button>
-        </WrapperColumn>
-    )
-})
+  const onSubmit = (values: Values): void => {
+    dispatch(editColumnName({ columnId, nameChangeColumn: values.text }));
+    // eslint-disable-next-line no-param-reassign
+    values.text = '';
+    setIsEdit(false);
+  };
+
+  return (
+    <WrapperColumn>
+      {!isEdit ? (
+        <ColumnName onClick={onColumnNameClick}>{props.name}</ColumnName>
+      ) : (
+        <Form
+          onSubmit={onSubmit}
+          render={({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <Field<any> name="text" validate={required}>
+                {({ input, meta }) => (
+                  <div style={{ position: 'relative', marginBottom: '20px' }}>
+                    {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                    <EditColumnName type="text" {...input} placeholder="Колонка..." />
+                    {meta.touched && meta.error && <Error>{meta.error}</Error>}
+                  </div>
+                )}
+              </Field>
+              <button style={{ marginBottom: '10px' }} type="submit">
+                Изменить
+              </button>
+            </form>
+          )}
+        />
+      )}
+      <ListCards>
+        {props.cards.map(item => (
+          <Card
+            key={item.id}
+            cardId={item.id}
+            columnId={columnId}
+            cardName={item.title}
+            columnName={props.name}
+            writerCard={item.writer}
+            comments={item.comments}
+            description={item.description}
+          />
+        ))}
+      </ListCards>
+      <Button onClick={onButtonClick}>Добавить</Button>
+    </WrapperColumn>
+  );
+});
 
 const WrapperColumn = styled.div`
   padding: 5px;
@@ -87,27 +92,23 @@ const WrapperColumn = styled.div`
   height: 100%;
   overflow: hidden;
   background: #e3dfdf;
-`
+`;
 const ColumnName = styled.span`
   color: #172b4d;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   margin-bottom: 10px;
-`
+`;
 const ListCards = styled.div`
   display: flex;
   flex-direction: column;
-`
-const Button = styled.button`
-
-`
-const EditColumnName = styled.input`
-
-`
+`;
+const Button = styled.button``;
+const EditColumnName = styled.input``;
 const Error = styled.span`
   position: absolute;
   display: block;
   top: 20px;
   color: darkred;
-`
+`;

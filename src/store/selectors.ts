@@ -1,12 +1,10 @@
-import React from "react";
-import {AppType} from "store/store";
-import {createSelector} from "reselect";
+import { Columns } from 'store/columnSlice';
+import { AppType } from 'store/store';
 
-export const getAllColumns = (state: AppType) => state.column.columns;
+export const getAllColumns = (state: AppType): Columns => state.column.columns;
 
-export const getIsLogin = (state: AppType) => state.login.isLogin;
+export const getIsLogin = (state: AppType): boolean => state.login.isLogin;
 
-export const getLoginName = (state:AppType) => state.login.loginData.name;
+export const getLoginName = (state: AppType): string => state.login.loginData.name;
 
-export const getLoginId = (state:AppType) => state.login.loginData.id;
-
+export const getLoginId = (state: AppType): any => state.login.loginData.id;

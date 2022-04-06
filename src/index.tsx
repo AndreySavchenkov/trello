@@ -1,12 +1,15 @@
 import React from 'react';
+
 import ReactDOM from 'react-dom';
 import './index.css';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { createGlobalStyle } from 'styled-components';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {createGlobalStyle} from "styled-components";
-import {Provider} from "react-redux";
-import {persistor, store} from "./store/store";
-import {PersistGate} from "redux-persist/integration/react";
+
+import { persistor, store } from 'store/store';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -17,19 +20,18 @@ const GlobalStyles = createGlobalStyle`
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
     font-size: 14px;
   }
-`
-
+`;
 
 ReactDOM.render(
-    <React.StrictMode>
-        <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-                <App/>
-                <GlobalStyles/>
-            </PersistGate>
-        </Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
+  <React.StrictMode>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+        <GlobalStyles />
+      </PersistGate>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
