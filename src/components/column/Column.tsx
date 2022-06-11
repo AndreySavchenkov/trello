@@ -1,4 +1,4 @@
-import React, { FC, memo, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 
 import { Field, Form } from 'react-final-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import { addCard, Cards, editColumnName } from 'store/columnSlice';
 import { getLoginName } from 'store/selectors';
 import { AppType } from 'store/store';
 import { required } from 'utils/utils';
+import { getCurrentUser } from 'store/loginSlice';
 
 type Values = {
   text: string;
@@ -39,6 +40,10 @@ export const Column: FC<Props> = memo(({ columnId, ...props }) => {
     values.text = '';
     setIsEdit(false);
   };
+
+  useEffect(()=>{
+console.log(dispatch(getCurrentUser()))
+  },[])
 
   return (
     <WrapperColumn>

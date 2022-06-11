@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { userApi } from 'api/api';
 
 type InitialState = {
   isLogin: boolean;
@@ -6,6 +7,7 @@ type InitialState = {
     name: string;
     id: number | undefined;
   };
+  user: any;
 };
 
 const initialState = {
@@ -14,7 +16,16 @@ const initialState = {
     name: '',
     id: undefined,
   },
+  user: {},
 } as InitialState;
+
+export const getCurrentUser = createAsyncThunk(
+  'users/getCurrentUser',
+  async ( thunkAPI) => {
+    const response = await userApi.getCurrentUser()
+    return response.data
+  }
+)
 
 const loginSlice = createSlice({
   name: 'login',
@@ -28,6 +39,11 @@ const loginSlice = createSlice({
       state.loginData.id = action.payload.id;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(getCurrentUser.fulfilled, (state, action) => {
+      state.user = action.payload
+    })
+  }
 });
 
 export const { setIsLogin, setLoginName } = loginSlice.actions;
