@@ -1,4 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { columnApi, userApi } from 'api/api';
+import { getCurrentUser } from 'store/loginSlice';
 
 export type Comment = {
   id: number;
@@ -28,6 +30,7 @@ export type Columns = ColumnType[];
 
 export type Data = {
   columns: Columns;
+  columnsInServer: any[];
 };
 
 const initialState = {
@@ -186,7 +189,14 @@ const initialState = {
       ],
     },
   ],
+  columnsInServer: [],
 } as Data;
+
+export const getAllColumns = createAsyncThunk('columns', async thunkAPI => {
+  const response = await columnApi.getAllColumnsForUser();
+  console.log(response.data);
+  return response.data;
+});
 
 const columnSlice = createSlice({
   name: 'сolumn',
@@ -209,12 +219,12 @@ const columnSlice = createSlice({
         );
       }
     },
-    addCard(state, action: PayloadAction<{ columnId: number; loginName: any }>) {
+    addCard(state, action: PayloadAction<{ columnId: number; username: string }>) {
       const findColumn = state.columns.find(item => item.id === action.payload.columnId);
       if (findColumn) {
         findColumn.cards.push({
           id: Date.now(),
-          writer: action.payload.loginName,
+          writer: action.payload.username,
           title: 'новая таска',
           description: '',
           comments: [],
@@ -304,6 +314,11 @@ const columnSlice = createSlice({
         }
       }
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(getAllColumns.fulfilled, (state, action) => {
+      state.columnsInServer = action.payload;
+    });
   },
 });
 

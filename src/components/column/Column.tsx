@@ -5,29 +5,29 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { Card } from 'components';
-import { addCard, Cards, editColumnName } from 'store/columnSlice';
-import { getLoginName } from 'store/selectors';
+import { addCard, Cards, editColumnName, getAllColumns } from 'store/columnSlice';
+import { getCurrentUser, User } from 'store/loginSlice';
+import { getCorrectUser } from 'store/selectors';
 import { AppType } from 'store/store';
 import { required } from 'utils/utils';
-import { getCurrentUser } from 'store/loginSlice';
 
 type Values = {
   text: string;
 };
 type Props = {
   name: string;
-  cards: Cards;
+  // cards: Cards;
   columnId: number;
 };
 
 export const Column: FC<Props> = memo(({ columnId, ...props }) => {
   const [isEdit, setIsEdit] = useState(false);
 
-  const loginName = useSelector<AppType>(getLoginName);
+  const user = useSelector<AppType>(getCorrectUser);
   const dispatch = useDispatch();
 
   const onButtonClick = (): void => {
-    dispatch(addCard({ columnId, loginName }));
+    user.username && dispatch(addCard({ columnId, username: user.username }));
   };
 
   const onColumnNameClick = (): void => {
@@ -40,10 +40,6 @@ export const Column: FC<Props> = memo(({ columnId, ...props }) => {
     values.text = '';
     setIsEdit(false);
   };
-
-  useEffect(()=>{
-console.log(dispatch(getCurrentUser()))
-  },[])
 
   return (
     <WrapperColumn>
@@ -71,18 +67,18 @@ console.log(dispatch(getCurrentUser()))
         />
       )}
       <ListCards>
-        {props.cards.map(item => (
-          <Card
-            key={item.id}
-            cardId={item.id}
-            columnId={columnId}
-            cardName={item.title}
-            columnName={props.name}
-            writerCard={item.writer}
-            comments={item.comments}
-            description={item.description}
-          />
-        ))}
+        {/*{props.cards.map(item => (*/}
+        {/*  <Card*/}
+        {/*    key={item.id}*/}
+        {/*    cardId={item.id}*/}
+        {/*    columnId={columnId}*/}
+        {/*    cardName={item.title}*/}
+        {/*    columnName={props.name}*/}
+        {/*    writerCard={item.writer}*/}
+        {/*    comments={item.comments}*/}
+        {/*    description={item.description}*/}
+        {/*  />*/}
+        {/*))}*/}
       </ListCards>
       <Button onClick={onButtonClick}>Добавить</Button>
     </WrapperColumn>

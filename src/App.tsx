@@ -1,23 +1,51 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
+import { columnApi } from 'api/api';
 import { Login, Column } from 'components';
-import { Columns, ColumnType } from 'store/columnSlice';
-import { getAllColumns, getIsLogin } from 'store/selectors';
+import { User } from 'components/user/User';
+import { Columns, ColumnType, getAllColumns } from 'store/columnSlice';
+import { getCurrentUser } from 'store/loginSlice';
+import { getCorrectUser, getIsLogin } from 'store/selectors';
 import { AppType } from 'store/store';
 
 const App: FC = () => {
-  const stateColumn = useSelector<AppType>(getAllColumns) as Columns;
+  const [columnsInServer, setColumnsInServer] = useState();
+
+  const dispatch = useDispatch();
+
   const isLogin = useSelector<AppType>(getIsLogin);
+  const user = useSelector<AppType>(getCorrectUser);
+
+  const fetchColumns = async () => {
+    const { data } = await columnApi.getAllColumnsForUser();
+    setColumnsInServer(data);
+  };
+
+  useEffect(() => {
+    fetchColumns();
+  }, []);
 
   return (
     <AppWrapper>
       {!isLogin ? <Login /> : null}
+      {/* <Login/> */}
+      <User username={user.username} email={user.email} />
+      {/* <ColumnWrapper> */}
+      {/*  {stateColumn.map((item: ColumnType) => ( */}
+      {/*    <Column key={item.id} name={item.title} cards={item.cards} columnId={item.id} /> */}
+      {/*  ))} */}
+      {/* </ColumnWrapper> */}
       <ColumnWrapper>
-        {stateColumn.map((item: ColumnType) => (
-          <Column key={item.id} name={item.title} cards={item.cards} columnId={item.id} />
+        {columnsInServer?.map((item: ColumnType) => (
+          <Column
+            key={item.id}
+            name={item.title}
+            // cards={item.cards}
+            columnId={item.id}
+          />
         ))}
       </ColumnWrapper>
     </AppWrapper>
